@@ -12,9 +12,9 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-    * 错误码，1为正常
-    * @var int
-    */
+     * 错误码，1为正常
+     * @var int
+     */
     protected $status = 1;
 
     public function getStatus()
@@ -31,9 +31,9 @@ class Controller extends BaseController
     public function response($message, $data = null)
     {
         return response()->json([
-            "status" => $this->getStatus(),
-            "message" => $message,
-            "data" => $data
+            'status' => $this->getStatus(),
+            'message' => $message,
+            'data' => $data
         ]);
     }
 

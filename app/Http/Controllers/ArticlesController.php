@@ -8,13 +8,13 @@ use App\Repositories\ArticlesRepository;
 class ArticlesController extends Controller
 {
     /**
-    * @var ArticlesRepository
-    */
-    protected $acticlesRepository;
+     * @var ArticlesRepository
+     */
+    protected $articlesRepository;
 
-    public function __construct(ArticlesRepository $acticlesRepository)
+    public function __construct(ArticlesRepository $articlesRepository)
     {
-        $this->acticlesRepository = $acticlesRepository;
+        $this->articlesRepository = $articlesRepository;
     }
 
     public function index(Request $request)
@@ -24,9 +24,9 @@ class ArticlesController extends Controller
             $page = $request->input('page');
         }
 
-        $articles = $this->acticlesRepository->getArticles($page, $request);
-        
-        if (! empty($articles)) {
+        $articles = $this->articlesRepository->getArticles($page, $request);
+
+        if (!empty($articles)) {
             return $this->responseSuccess('OK', $articles);
         }
 

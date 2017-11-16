@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     /**
-     * 可以被批量赋值的属性。
-     *
+     * 可以被批量赋值的属性
      * @var array
      */
     protected $fillable = [
@@ -16,24 +15,35 @@ class Article extends Model
     ];
 
     /**
-    * 获得此文章的标签
-    */
+     * 将属性转换为常见的数据类型
+     * @var array
+     */
+    protected $casts = [
+        'close_comment' => 'boolean',
+        'is_public' => 'boolean',
+        'is_top' => 'boolean',
+        'is_excellent' => 'boolean'
+    ];
+
+    /**
+     * 获得此文章的标签
+     */
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
 
     /**
-    * 获得此文章的用户
-    */
+     * 获得此文章的用户
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-    * 获得此文章的分类
-    */
+     * 获得此文章的分类
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);
