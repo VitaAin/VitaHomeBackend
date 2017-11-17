@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Article;
-use Illuminate\Support\Facades\Cache;
 
 class ArticlesRepository
 {
