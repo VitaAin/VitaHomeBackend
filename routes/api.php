@@ -26,6 +26,11 @@ use Illuminate\Http\Request;
 
 
 Route::group(['middleware' => 'cols', 'prefix' => 'v1'], function () {
+    // Auth
+    Route::post('user/login', 'AuthController@login');
+    Route::post('user/register', 'AuthController@register');
+    Route::get('user/logout', 'AuthController@logout');
+
     // Articles
     Route::resource('articles', 'ArticlesController');
     Route::get('hot_articles', 'ArticlesController@hotArticles');
@@ -37,6 +42,8 @@ Route::group(['middleware' => 'cols', 'prefix' => 'v1'], function () {
     // Tags
     Route::resource('tags', 'TagsController');
     Route::get('hot_tags', 'TagsController@hotTags');
+
+    // User
 });
 
 
