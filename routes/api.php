@@ -14,12 +14,18 @@ use Illuminate\Http\Request;
 */
 
 
-Route::group(['middleware'=>'cols','prefix' => 'v1'], function () {
+Route::group(['middleware' => 'cols', 'prefix' => 'v1'], function () {
     // Articles
     Route::resource('articles', 'ArticlesController');
-    // Route::get('', );
-    
-    
+    Route::get('hot_articles', 'ArticlesController@hotArticles');
+
+    Route::get('articles/{article}/comments', 'CommentsController@index');
+
+    Route::get('categories', 'CategoriesController@index');
+
+    // Tags
+    Route::resource('tags', 'TagsController');
+    Route::get('hot_tags', 'TagsController@hotTags');
 });
 
 
