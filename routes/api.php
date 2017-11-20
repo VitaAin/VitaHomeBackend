@@ -13,19 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-//$api=app('Dingo\Api\Routing\Router');
-//$api->version('v1',['namespace'=>'App\Http\Controllers'],function ($api){
-//    $api->post('token', 'UserController@token');    //获取token
-//    $api->post('refresh-token', 'UserController@refershToken'); //刷新token
-//
-//    $api->group(['middleware' => ['auth:api']], function($api) {
-//        $api->post('logout', 'UserController@logout');    //登出
-//        $api->get('me', 'UserController@me');    //关于我
-//    });
-//});
 
-
-Route::group(['middleware' => 'cols', 'prefix' => 'v1'], function () {
+Route::group(['middleware' => 'cols'/*, 'prefix' => 'v1'*/], function () {
     // Auth
     Route::post('user/login', 'AuthController@login');
     Route::post('user/register', 'AuthController@register');

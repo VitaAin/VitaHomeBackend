@@ -13,7 +13,6 @@ use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
-
     /**
      * AuthController constructor.
      */
@@ -46,10 +45,10 @@ class AuthController extends Controller
         ];
 
         $user = User::create($newUser);
-        $this->sendVerifyEmailTo($user);
-        $user->attachRole(3);
+//        $this->sendVerifyEmailTo($user);
+//        $user->attachRole(3);
 
-        return $this->responseOk('OK');
+        return $this->responseOk('Register successfully');
     }
 
     public function sendVerifyEmailTo($user)
@@ -75,7 +74,9 @@ class AuthController extends Controller
         ]);
 
         try {
-            $token = JWTAuth::attempt($data);
+//            $token = JWTAuth::attempt($data);
+//            $token = Auth::guard('api')->attempt($data);
+            $token = JWTAuth::fromUser($data);
             if (!$token) {
                 return $this->responseError('Username or password errors');
             }
