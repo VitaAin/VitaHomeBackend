@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::group(['middleware' => 'cols'/*, 'prefix' => 'v1'*/], function () {
+Route::group(['middleware' => 'cors'/*, 'prefix' => 'v1'*/], function () {
     // Auth
     Route::post('user/login', 'AuthController@login');
     Route::post('user/register', 'AuthController@register');
