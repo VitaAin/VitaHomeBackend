@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('jwt.auth', [
-            'except' => ['logout']
+            'only' => ['login', 'logout']
         ]);
     }
 
