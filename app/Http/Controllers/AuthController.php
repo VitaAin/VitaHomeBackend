@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 use Illuminate\Support\Carbon;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,8 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('jwt.auth', [
-            'only' => ['login', 'logout']
+            'only' => [/*'login', */
+                'logout']
         ]);
     }
 
@@ -40,20 +42,27 @@ class AuthController extends Controller
             'name' => $request->get('name'),
             'email' => $request->get('email'),
             'password' => $request->get('password'),
-            'password_confirmation' => $request->get('password_confirmation'),
-            'confirm_code' => str_random(64)
+            'avatar' => env('APP_URL') . '/image/avatar.jpeg',
+            'confirm_code' => str_random(60)
         ];
 
         $user = User::create($newUser);
-//        $this->sendVerifyEmailTo($user);
+        $this->sendVerifyEmailTo($user);
 //        $user->attachRole(3);
 
         return $this->responseOk('Register successfully');
     }
 
-    public function sendVerifyEmailTo($user)
+    private function sendVerifyEmailTo($user)
     {
+        $bind_data = ['url' => 'http://naux.me' . $user->conform_code,
+            'name' => $user->name];
+        $template = new SendCloudTemplate('VitaHome-Verify', $bind_data);
 
+        Mail::raw($template, function ($message) use ($user) {
+            $message->from('root@vitain.top', 'vitain.top');
+            $message->to($user->email)->cc('bar@example.com');
+        });
     }
 
     public function login(Request $request)
@@ -74,9 +83,9 @@ class AuthController extends Controller
         ]);
 
         try {
-//            $token = JWTAuth::attempt($data);
+            $token = JWTAuth::attempt($data);
 //            $token = Auth::guard('api')->attempt($data);
-            $token = JWTAuth::fromUser($data);
+//            $token = JWTAuth::fromUser($data);
             if (!$token) {
                 return $this->responseError('Username or password errors');
             }
