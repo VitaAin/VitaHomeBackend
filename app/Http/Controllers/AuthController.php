@@ -55,14 +55,24 @@ class AuthController extends Controller
 
     private function sendVerifyEmailTo($user)
     {
-        $bind_data = ['url' => 'http://naux.me' . $user->conform_code,
-            'name' => $user->name];
-        $template = new SendCloudTemplate('VitaHome-Verify', $bind_data);
+        $bind_data = [
+            'name' => $user->name,
+            'verify_url' => 'http://vitain.top/#/verify_email' . $user->conform_code];
+        $template = new SendCloudTemplate('vitahome_register_verify', $bind_data);
 
         Mail::raw($template, function ($message) use ($user) {
-            $message->from('root@vitain.top', 'vitain.top');
-            $message->to($user->email)->cc('bar@example.com');
+            $message->from('service@vitain.top', 'VitaHome注册验证');
+            $message->to($user->email);
         });
+
+//        $data = [ 'url' => 'https://laravue.org/#/verify_email/' . $user->confirm_code,
+//            'name' => $user->name ];
+//        $template = new SendCloudTemplate('laravue_verify', $data);
+//
+//        Mail::raw($template, function ($message) use ($user) {
+//            $message->from('root@laravue.org', 'laravue.org');
+//            $message->to($user->email);
+//        });
     }
 
     public function login(Request $request)
@@ -84,15 +94,14 @@ class AuthController extends Controller
 
         try {
             $token = JWTAuth::attempt($data);
-//            $token = Auth::guard('api')->attempt($data);
-//            $token = JWTAuth::fromUser($data);
             if (!$token) {
                 return $this->responseError('Username or password errors');
             }
             $user = Auth::user();
-            if ($user->is_confirmed == 0) {
-                return $this->responseError('Not activated');
-            }
+            // TODO release after confirmed by email
+//            if ($user->is_confirmed == 0) {
+//                return $this->responseError('Not activated');
+//            }
             $user->jwt_token = [
                 'access_token' => $token,
                 'expires_in' => Carbon::now()->addMinutes(config('jwt.ttl'))->timestamp

@@ -21,6 +21,11 @@ class ArticlesController extends Controller
         $this->articlesRepository = $articlesRepository;
     }
 
+    public function store()
+    {
+        return $this->responseOk('OK');
+    }
+
     public function index(Request $request)
     {
         $page = 1;
@@ -49,6 +54,6 @@ class ArticlesController extends Controller
                 ->get();
             Cache::put('hotArticles_cache', $hotArticles, 10);
         }
-        return $this->responseOk('OK', $this->hotArticles());
+        return $this->responseOk('OK', $hotArticles);
     }
 }
