@@ -5,14 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tag;
 use Cache;
+use DB;
 
 class TagsController extends Controller
 {
+    /**
+     * action: GET, URI: /tags
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $tags = Cache::get('Tags_cache');
         if (empty($tag)) {
-            $tags = \DB::table('tags')
+            $tags = DB::table('tags')
                 ->select('id', 'name')
                 ->get();
             Cache::put('Tags_cache', $tags, 10);

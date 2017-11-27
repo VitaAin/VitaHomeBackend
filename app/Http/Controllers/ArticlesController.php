@@ -60,7 +60,7 @@ class ArticlesController extends Controller
     /**
      * action: POST, URI: /articles
      *
-     * //     * @param StoreArticleRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -77,8 +77,8 @@ class ArticlesController extends Controller
         ];
         $article = $this->articlesRepository->create($data);
 //        $article->increment('category_id');
-//        Category::find($request->get('category'))->increment('articles_count');
-//        Auth::user()->increment('articles_count');
+        Category::find($request->get('category'))->increment('articles_count');
+        Auth::user()->increment('articles_count');
         $article->tags()->attach($tags);
         Cache::tags('articles')->flush();
 
@@ -118,7 +118,7 @@ class ArticlesController extends Controller
     /**
      * action: PUT/PATCH, URI: /articles/{id}
      *
-     * //     * @param StoreArticleRequest $request
+     * @param Request $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
