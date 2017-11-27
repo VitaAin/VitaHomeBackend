@@ -98,10 +98,10 @@ class AuthController extends Controller
                 return $this->responseError('Username or password errors');
             }
             $user = Auth::user();
-            // TODO release after confirmed by email
-//            if ($user->is_confirmed == 0) {
-//                return $this->responseError('Not activated');
-//            }
+            // TODO release after confirmed by email or modify data in database
+            if ($user->is_confirmed == 0) {
+                return $this->responseError('Not activated');
+            }
             $user->jwt_token = [
                 'access_token' => $token,
                 'expires_in' => Carbon::now()->addMinutes(config('jwt.ttl'))->timestamp

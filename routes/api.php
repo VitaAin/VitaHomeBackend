@@ -24,8 +24,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::resource('articles', 'ArticlesController');
     Route::get('hot_articles', 'ArticlesController@hotArticles');
 
+    // Comments
     Route::get('articles/{article}/comments', 'CommentsController@index');
 
+    // Categories
     Route::get('categories', 'CategoriesController@index');
 
     // Tags

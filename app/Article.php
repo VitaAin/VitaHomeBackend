@@ -30,7 +30,7 @@ class Article extends Model
      */
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     /**
@@ -67,6 +67,6 @@ class Article extends Model
 
     public function scopeIsPublic($query)
     {
-        return $query->where('is_public', 1);
+        return $query->where('is_public', '1');
     }
 }

@@ -17,7 +17,6 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
             $table->string("title")->comment("文章标题");
             $table->text("body")->comment("文章内容"); 
-            $table->dateTime("post_time")->comment("文章发布时间");
             $table->integer("user_id")->unsigned()->comment("作者id");
             $table->integer("last_comment_user_id")->unsigned()->default(0)->index()->comment("最后评论用户id");
             $table->integer("category_id")->unsigned()->default(0)->index()->comment("所属类别");
