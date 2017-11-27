@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Request\StoreArticleRequest;
+use App\Transformer\ArticleLikesTransformer;
 use Illuminate\Http\Request;
 use App\Repositories\ArticlesRepository;
 use App\Article;
@@ -18,9 +19,15 @@ class ArticlesController extends Controller
      */
     protected $articlesRepository;
 
-    public function __construct(ArticlesRepository $articlesRepository)
+    /**
+     * @var ArticleLikesTransformer
+     */
+    protected $articleLikesTransformer;
+
+    public function __construct(ArticlesRepository $articlesRepository, ArticleLikesTransformer $articleLikesTransformer)
     {
         $this->articlesRepository = $articlesRepository;
+        $this->articleLikesTransformer = $articleLikesTransformer;
     }
 
     /**
@@ -176,5 +183,17 @@ class ArticlesController extends Controller
             Cache::put('hotArticles_cache', $hotArticles, 10);
         }
         return $this->responseOk('OK', $hotArticles);
+    }
+
+    public function likes($id)
+    {
+        $article = Article::find($id);
+
+        if (empty($article)) {
+            return $this->responseError('No like for this article');
+        } else {
+            return $this->responseOk('OK',
+                $this->articleLikesTransformer->transformCollection($article->likes->toArray()));
+        }
     }
 }

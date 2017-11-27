@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     // Auth
     Route::post('user/register', 'AuthController@register'); // 注册
+    Route::get('verify_email', 'AuthController@verifyToken'); // 验证注册码
     Route::post('user/login', 'AuthController@login'); // 登录
     Route::get('user/logout', 'AuthController@logout'); // 登出
 
@@ -30,6 +31,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     // Tags
     Route::resource('tags', 'TagsController'); // 标签
     Route::get('hot_tags', 'TagsController@hotTags'); // 热门标签
+    // Likes
+    Route::get('articles/{article}/likes', 'ArticlesController@likes'); //获取文章的所有点赞
 
     // User
 });

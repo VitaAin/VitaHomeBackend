@@ -57,22 +57,33 @@ class AuthController extends Controller
     {
         $bind_data = [
             'name' => $user->name,
-            'verify_url' => 'http://vitain.top/#/verify_email' . $user->conform_code];
+            'verify_url' => 'http://vitain.top/#/verify_email/' . $user->conform_code];
         $template = new SendCloudTemplate('vitahome_register_verify', $bind_data);
 
         Mail::raw($template, function ($message) use ($user) {
             $message->from('service@vitain.top', 'VitaHome注册验证');
             $message->to($user->email);
         });
+    }
 
-//        $data = [ 'url' => 'https://laravue.org/#/verify_email/' . $user->confirm_code,
-//            'name' => $user->name ];
-//        $template = new SendCloudTemplate('laravue_verify', $data);
-//
-//        Mail::raw($template, function ($message) use ($user) {
-//            $message->from('root@laravue.org', 'laravue.org');
-//            $message->to($user->email);
-//        });
+    public function verifyToken()
+    {
+        $user = User::where('confirm_code', Request('code'))->first();
+        if (empty($user)) {
+            return $this->responseError('Active failed');
+        }
+
+        $user->is_confirmed = 1;
+        $user->comfirm_code = str_random(60);
+        $user->save();
+        Auth::login($user);
+
+        $token = JWTAuth::fromUser($user);
+        $user->jwt_token = [
+            'access_token' => $token,
+            'expires_in' => Carbon::now()->addMinute(config('jwt.ttl'))->timestamp
+        ];
+        return $this->responseOk('Register OK', $user);
     }
 
     public function login(Request $request)
