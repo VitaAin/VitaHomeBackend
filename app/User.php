@@ -30,6 +30,15 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
+    /**
+     * 将属性转换为常见的数据类型
+     * @var array
+     */
+    protected $casts = [
+        'is_banned' => 'boolean',
+//        'is_confirmed' => 'boolean'
+    ];
+
     public function setPasswordAttribute($pwd)
     {
         return $this->attributes['password'] = Hash::make($pwd);

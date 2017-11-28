@@ -84,7 +84,9 @@ class ArticlesController extends Controller
         ];
         $article = $this->articlesRepository->create($data);
 //        $article->increment('category_id');
-        Category::find($request->get('category'))->increment('articles_count');
+        if ($category = Category::find($request->get('category'))) {
+            $category->increment('articles_count');
+        }
         Auth::user()->increment('articles_count');
         $article->tags()->attach($tags);
         Cache::tags('articles')->flush();
