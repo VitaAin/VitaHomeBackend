@@ -35,6 +35,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('articles/{article}/likes', 'ArticlesController@likes'); //获取文章的所有点赞
 
     // User
+    Route::resource('users', 'UserController');
+    Route::get('users/{user}/articles', 'UserController@userArticles'); //用户发表的文章
+    Route::get('users/{user}/replies', 'UserController@userReplies'); //用户的回复
+    Route::get('users/{user}/like_articles', 'UserController@likeArticles'); //用户的点赞文章
+    Route::get('users/{user}/follow_users', 'UserController@followUsers'); //用户的关注
+    Route::post('edit_password', 'UserController@editPassword'); //修改密码
+    Route::post('avatar/upload', 'UserController@avatarUpload'); //上传头像
+    Route::post('edit_user_info', 'UserController@editUserInfo'); //修改个人信息
 });
 
 
