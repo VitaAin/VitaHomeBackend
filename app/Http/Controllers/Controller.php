@@ -32,7 +32,7 @@ class Controller extends BaseController
     {
         return response()->json([
             'status' => $this->getStatus(),
-            'message' => 'VITA_HOME: ' . $message,
+            'message' => $message,
             'data' => $data
         ]);
     }

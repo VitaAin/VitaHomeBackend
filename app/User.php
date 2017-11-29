@@ -79,7 +79,7 @@ class User extends Authenticatable implements JWTSubject
             ->count();
     }
 
-    public function followThis($user)
+    public function followThisUser($user)
     {
         return $this->followers()->toggle($user);
     }
