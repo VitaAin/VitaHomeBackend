@@ -15,7 +15,8 @@ class FollowsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('jwt.auth');
+        //TODO release code below
+//        $this->middleware('jwt.auth');
     }
 
     public function isFollow(Request $request)
