@@ -77,8 +77,8 @@ class ArticlesController extends Controller
             'title' => $request->get('title'),
 //            'article_url'=>$request->get('article_url'),
             'body' => $request->get('body'),
-//            'user_id' => Auth::id(),
-            'user_id' => $request->get('user_id'),
+            'user_id' => Auth::id(),
+//            'user_id' => $request->get('user_id'),
             'is_public' => $request->get('is_public'),
             'category_id' => $request->get('category_id')
         ];

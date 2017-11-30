@@ -20,8 +20,7 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('jwt.auth', [
-            'only' => [/*'login', */
-                'logout']
+            'only' => ['logout']
         ]);
     }
 
@@ -94,7 +93,8 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->responseError('Validate failed', $validator->errors()->toArray());
+            return $this->responseError('Validate failed',
+                $validator->errors()->toArray());
         }
 
         $loginBy = filter_var($request->get('account'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
@@ -115,6 +115,7 @@ class AuthController extends Controller
             }
             $user->jwt_token = [
                 'access_token' => $token,
+                'token_type' => 'bearer',
                 'expires_in' => Carbon::now()->addMinutes(config('jwt.ttl'))->timestamp
             ];
             return $this->responseOk('Login successfully', $user->toArray());
