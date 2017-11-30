@@ -24,8 +24,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     // Articles
     Route::resource('articles', 'ArticlesController'); // 文章
     Route::get('hot_articles', 'ArticlesController@hotArticles'); // 热门文章
-    // Comments
-    Route::get('articles/{article}/comments', 'CommentsController@index'); // 文章评论
     // Categories
     Route::get('categories', 'CategoriesController@index'); // 分类
     // Tags
@@ -33,6 +31,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('hot_tags', 'TagsController@hotTags'); // 热门标签
     // Likes
     Route::get('articles/{article}/likes', 'ArticlesController@likes'); //获取文章的所有点赞
+
+    // Comments
+    Route::get('articles/{article}/comments', 'CommentsController@index'); // 文章评论
+    Route::get('articles/{article}/child_comments', 'CommentsController@childComments'); //获取文章的子评论
+    Route::post('comments', 'CommentsController@store'); //增加文章的评论
 
     // User
     Route::resource('users', 'UserController');

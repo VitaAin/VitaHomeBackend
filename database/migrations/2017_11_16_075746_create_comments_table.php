@@ -21,7 +21,7 @@ class CreateCommentsTable extends Migration
             $table->unsignedInteger('commentable_id');
             // 保存所属模型的类名
             $table->string('commentable_type');
-            $table->unsignedInteger('parent_id')->comment('上一级评论id');
+            $table->unsignedInteger('parent_id')->nullable()->comment('上一级评论id');
             $table->smallInteger('level')->default(1)->comment('评论层级');
             $table->enum('is_public', [0, 1])->default(1)->comment('是否公开');
             $table->timestamps();
