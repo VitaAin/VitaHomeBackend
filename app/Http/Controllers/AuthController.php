@@ -30,7 +30,6 @@ class AuthController extends Controller
             'name' => 'required|unique:users|between:4,20',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required|min:6'
         ]);
 
         if ($validator->fails()) {
@@ -73,7 +72,7 @@ class AuthController extends Controller
         }
 
         $user->is_confirmed = 1;
-        $user->comfirm_code = str_random(60);
+        $user->confirm_code = str_random(60);
         $user->save();
         Auth::login($user);
 

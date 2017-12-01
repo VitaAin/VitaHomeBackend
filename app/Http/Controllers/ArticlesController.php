@@ -28,6 +28,10 @@ class ArticlesController extends Controller
     {
         $this->articlesRepository = $articlesRepository;
         $this->articleLikesTransformer = $articleLikesTransformer;
+
+        $this->middleware('jwt.auth', [
+            'only' => ['store', 'update', 'destroy']
+        ]);
     }
 
     /**
@@ -78,7 +82,6 @@ class ArticlesController extends Controller
 //            'article_url'=>$request->get('article_url'),
             'body' => $request->get('body'),
             'user_id' => Auth::id(),
-//            'user_id' => $request->get('user_id'),
             'is_public' => $request->get('is_public'),
             'category_id' => $request->get('category_id')
         ];
