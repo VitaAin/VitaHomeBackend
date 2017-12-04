@@ -26,10 +26,9 @@ class UserController extends Controller
     public function __construct(CommentsTransformer $commentsTransformer)
     {
         $this->commentsTransformer = $commentsTransformer;
-        //TODO release code below
-//        $this->middleware('jwt.auth', [
-//            'except' => ['show']
-//        ]);
+        $this->middleware('jwt.auth', [
+            'except' => ['show']
+        ]);
     }
 
     /**

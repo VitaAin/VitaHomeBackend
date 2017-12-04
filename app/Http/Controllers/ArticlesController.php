@@ -195,10 +195,14 @@ class ArticlesController extends Controller
         $article = Article::find($id);
 
         if (empty($article)) {
-            return $this->responseError('No like for this article');
+            return $this->responseError('Cannot find this article');
         } else {
-            return $this->responseOk('OK',
-                $this->articleLikesTransformer->transformCollection($article->likes->toArray()));
+            $data = [
+                'likes_count' => count($article->likes->toArray()),
+                'likes' => $this->articleLikesTransformer
+                    ->transformCollection($article->likes->toArray())
+            ];
+            return $this->responseOk('OK', $data);
         }
     }
 }

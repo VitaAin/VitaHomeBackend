@@ -17,10 +17,9 @@ class CommentsController extends Controller
      */
     public function __construct()
     {
-        //TODO release code below
-//        $this->middleware('jwt.auth', [
-//            'only' => ['store']
-//        ]);
+        $this->middleware('jwt.auth', [
+            'only' => ['store']
+        ]);
     }
 
     public function index($id)
@@ -73,7 +72,7 @@ class CommentsController extends Controller
             'commentable_type' => 'App\Article',
             'user_id' => $user->id,
             'parent_id' => request('parent_id'),
-            'body' => request('body')
+            'content' => request('content'),
         ]);
 
         if (empty($comment)) {
@@ -99,16 +98,23 @@ class CommentsController extends Controller
             'name' => $user->name,
             'title' => $article->title,
             'title_id' => $article->id,
-            'comment' => $comment->body
+            'comment' => $comment->content
         ];
-        if ($comment->parent_id !== 0) {
+        if ($comment->parent_id == 0) {
+            $comment->update([
+                'floor' => $article->comments_count + 1
+            ]);
+            $article->user->notify(new CommentArticleNotification($data));
+        } else {
             $parent = Comment::where('id', $comment->parent_id)
                 ->first()->user()->first();
+            $comment->update([
+                'floor' => $parent->floor
+            ]);
+            $parent->increment('children_count');
             $comment->parent_name = $parent->name;
             $comment->parent_user_id = $parent->id;
             $parent->notify(new CommentArticleNotification($data));
-        } else {
-            $article->user->notify(new CommentArticleNotification($data));
         }
 
         return $this->responseOk('OK', $comment);

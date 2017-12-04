@@ -14,8 +14,7 @@ class LikesController extends Controller
      */
     public function __construct()
     {
-        //TODO release code below
-//        $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth');
     }
 
     public function isLike(Request $request)

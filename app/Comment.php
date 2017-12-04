@@ -7,11 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     protected $fillable = [
-        'user_id', 'body', 'commentable_id', 'commentable_type', 'parent_id'
-    ];
-
-    protected $casts = [
-        'is_public' => 'boolean'
+        'user_id', 'content', 'commentable_id', 'commentable_type', 'parent_id'
     ];
 
     /**

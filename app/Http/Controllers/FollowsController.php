@@ -48,6 +48,6 @@ class FollowsController extends Controller
         }
         $user->decrement('followings_count');
         $userToFollow->decrement('followers_count');
-        return $this->responseSuccess('OK', ['followed' => false]);
+        return $this->responseOk('OK', ['followed' => false]);
     }
 }
