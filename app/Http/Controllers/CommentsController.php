@@ -28,6 +28,11 @@ class CommentsController extends Controller
             ->where('parent_id', 0)
             ->with(['user' => function ($query) {
                 $query->select('id', 'name', 'avatar');
+            }, 'children' => function ($query) {
+                $query->select('id', 'content', 'created_at', 'parent_id', 'user_id')
+                    ->with(['user' => function ($query) {
+                        $query->select('id', 'name', 'avatar');
+                    }]);
             }])
             ->get();
         return $this->responseOk('OK', $comments);
@@ -106,12 +111,13 @@ class CommentsController extends Controller
             ]);
             $article->user->notify(new CommentArticleNotification($data));
         } else {
-            $parent = Comment::where('id', $comment->parent_id)
-                ->first()->user()->first();
+            $parentComment = Comment::where('id', $comment->parent_id)
+                ->first();
+            $parent = $parentComment->user()->first();
+            $parentComment->increment('children_count');
             $comment->update([
-                'floor' => $parent->floor
+                'floor' => $parentComment->floor
             ]);
-            $parent->increment('children_count');
             $comment->parent_name = $parent->name;
             $comment->parent_user_id = $parent->id;
             $parent->notify(new CommentArticleNotification($data));
