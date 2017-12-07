@@ -14,13 +14,13 @@ class CommentsTransformer extends Transformer
     public function transform($item)
     {
         return [
-            'body' => $item['body'],
+            'content' => $item['content'],
             'created_at' => $item['created_at'],
             'commentable' => [
                 'id' => $item['commentable']['id'],
                 'title' => $item['commentable']['title'],
                 'comments_count' => $item['commentable']['comments_count'],
-                'likes_count' => $item['commentable']['comments_count'],
+                'likes_count' => $item['commentable']['likes_count'],
             ]
         ];
     }
