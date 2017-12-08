@@ -45,17 +45,17 @@ class AuthController extends Controller
         ];
 
         $user = User::create($newUser);
-//        $this->sendVerifyEmailTo($user);
+        $this->sendVerifyEmailTo($user);
 //        $user->attachRole(3);
 
-        return $this->responseOk('Register successfully');
+        return $this->responseOk('Register successfully, please go email to verify');
     }
 
     private function sendVerifyEmailTo($user)
     {
         $bind_data = [
             'name' => $user->name,
-            'verify_url' => 'http://vitain.top/#/verify_email/' . $user->conform_code];
+            'verify_url' => 'http://vitain.top/verify_email/?code=' . $user->conform_code];
         $template = new SendCloudTemplate('vitahome_register_verify', $bind_data);
 
         Mail::raw($template, function ($message) use ($user) {
