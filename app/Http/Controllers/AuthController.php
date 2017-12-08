@@ -56,7 +56,7 @@ class AuthController extends Controller
     {
         $bind_data = [
             'name' => $user->name,
-            'verify_url' => 'http://vitain.top/verify_email/?code=' . $user->confirm_code
+            'verify_url' => 'http://admin.vitain.top/verify_email/?code=' . $user->confirm_code
         ];
         $template = new SendCloudTemplate('vitahome_register_verify', $bind_data);
 
