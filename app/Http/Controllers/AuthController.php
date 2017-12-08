@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Auth;
+use Naux\Mail\SendCloudTemplate;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -55,7 +56,8 @@ class AuthController extends Controller
     {
         $bind_data = [
             'name' => $user->name,
-            'verify_url' => 'http://vitain.top/verify_email/?code=' . $user->conform_code];
+            'verify_url' => 'http://vitain.top/verify_email/?code=' . $user->conform_code
+        ];
         $template = new SendCloudTemplate('vitahome_register_verify', $bind_data);
 
         Mail::raw($template, function ($message) use ($user) {
