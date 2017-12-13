@@ -49,7 +49,7 @@ class AuthController extends Controller
         $this->sendVerifyEmailTo($user);
 //        $user->attachRole(3);
 
-        return $this->responseOk('Register successfully, please go email to verify');
+        return $this->responseOk('Register successfully, please go to your email to verify! ');
     }
 
     private function sendVerifyEmailTo($user)
