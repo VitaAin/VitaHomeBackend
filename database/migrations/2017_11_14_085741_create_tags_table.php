@@ -17,7 +17,7 @@ class CreateTagsTable extends Migration
             $table->increments('id');
             $table->string("name")->comment("类别名称");
             $table->string("description")->default("")->comment("类别描述");
-            $table->integer("articles_count")->comment("文章数量");
+            $table->integer("articles_count")->default(0)->comment("文章数量");
             $table->timestamps();
         });
     }
