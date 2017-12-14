@@ -77,19 +77,18 @@ class ArticlesController extends Controller
     public function store(Request $request)
     {
         $tags = $this->articlesRepository->createTags($request->get('tags'));
+        $category = $this->articlesRepository->createCategory($request->get('category'));
+
         $data = [
             'title' => $request->get('title'),
 //            'article_url'=>$request->get('article_url'),
             'body' => $request->get('body'),
             'user_id' => Auth::id(),
             'is_public' => $request->get('is_public'),
-            'category_id' => $request->get('category_id')
+//            'category_id' => $request->get('category_id')
+            'category_id' => $category
         ];
         $article = $this->articlesRepository->create($data);
-//        $article->increment('category_id');
-        if ($category = Category::find($request->get('category'))) {
-            $category->increment('articles_count');
-        }
         Auth::user()->increment('articles_count');
         $article->tags()->attach($tags);
         Cache::tags('articles')->flush();

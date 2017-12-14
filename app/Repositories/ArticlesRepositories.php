@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Category;
 use App\Tag;
 use Cache;
 use App\Article;
@@ -45,6 +46,22 @@ class ArticlesRepository
         return Article::find($id);
     }
 
+    public function createCategory($category)
+    {
+        $categoryFind = Category::find($category);
+        if (empty($categoryFind)) {
+            $newCategory = Category::create([
+                'name' => $category,
+                'articles_count' => 1
+            ]);
+            return $newCategory->id;
+        } else {
+            $categoryFind->increment('articles_count');
+            return $categoryFind->id;
+        }
+
+    }
+
     public function createTags($tags)
     {
         return collect($tags)->map(function ($tag) {
@@ -54,7 +71,8 @@ class ArticlesRepository
             }
             $newTag = Tag::create([
                 'name' => $tag,
-                'articles_count' => 1]);
+                'articles_count' => 1
+            ]);
             return $newTag->id;
         })->toArray();
     }
