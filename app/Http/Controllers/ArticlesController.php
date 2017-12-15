@@ -222,8 +222,9 @@ class ArticlesController extends Controller
 
     public function articleImageDelete(Request $request)
     {
-        $file = $request->get('file');
-        $fileUrl = $file->response->data->url;
+//        $file = $request->get('file');
+//        $fileUrl = $file->response->data->url;
+        $fileUrl = $request->get('url');
         $filename = array_last(str_split($fileUrl, '/'));
         $filePath = storage_path('articleImages/' . Auth::id() . '/' . $filename);
         \Storage::delete($filePath);
