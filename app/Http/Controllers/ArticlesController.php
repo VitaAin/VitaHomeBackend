@@ -204,4 +204,32 @@ class ArticlesController extends Controller
             return $this->responseOk('OK', $data);
         }
     }
+
+    public function articleImage($request)
+    {
+        $file = $request->file('file');
+        $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
+        $clientOriginalExt = $file->getClientOriginalExtension();
+        if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
+            return $this->responseError('You may only upload png, jpg/jpeg or gif.');
+        }
+        $filename = md5(time()) . '.' . $clientOriginalExt;
+        $file->move(public_path('../storage/app/public/articleImages/' . Auth::id()), $filename);
+        $article_image = env('APP_URL') . '/storage/articleImage/' . Auth::id() . '/' . $filename;
+        return $this->responseOk('OK', ['url' => $article_image]);
+    }
+
+    public function articleImages($id)
+    {
+        $article = Article::find($id);
+        if (empty($article)) {
+            return $this->responseError('Cannot find this article');
+        } else {
+            //TODO get all images of article
+            $data = [
+//              'article_images'=>
+            ];
+            return $this->responseOk('OK', $data);
+        }
+    }
 }
