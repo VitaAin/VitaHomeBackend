@@ -89,8 +89,12 @@ class ArticlesController extends Controller
             'category_id' => $category
         ];
         $article = $this->articlesRepository->create($data);
+        $images = $this->articlesRepository->createImages($article, $request->get('images'));
         Auth::user()->increment('articles_count');
+        Auth::user()->increment('images_count', count($images));
+        $article->increment('images_count', count($images));
         $article->tags()->attach($tags);
+        $article->images()->attach($images);
         Cache::tags('articles')->flush();
 
         return $this->responseOk('OK', $article);
@@ -225,6 +229,7 @@ class ArticlesController extends Controller
         $fileUrl = $request->get('url');
         $filename = array_last(explode('/', $fileUrl));
         $filePath = storage_path('articleImages/' . Auth::id() . '/' . $filename);
+        //TODO delete image, code below is invalid
         \File::delete($filePath);
         return $this->responseError('OK', $filePath);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\ArticleImage;
 use App\Category;
 use App\Tag;
 use Cache;
@@ -113,5 +114,20 @@ class ArticlesRepository
     public function create(array $attributes)
     {
         return Article::create($attributes);
+    }
+
+    public function createImages($article, array $images)
+    {
+        if (empty($images)) {
+            return [];
+        }
+//        foreach ($images as $image) {
+//            if ($image->article_id) continue;
+//            $image->article_id = $article->id;
+//        }
+        return collect($images)->map(function ($image) {
+            $newImage = ArticleImage::create($image);
+            return $newImage->id;
+        })->toArray();
     }
 }
