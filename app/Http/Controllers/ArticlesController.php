@@ -215,7 +215,8 @@ class ArticlesController extends Controller
         }
         $filename = md5(time()) . '.' . $clientOriginalExt;
         $file->move(public_path('../storage/app/public/articleImages/' . Auth::id()), $filename);
-        $article_image = env('APP_URL') . '/storage/app/public/articleImages/' . Auth::id() . '/' . $filename;
+        // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
+        $article_image = env('APP_URL') . '/storage/articleImages/' . Auth::id() . '/' . $filename;
         return $this->responseOk('OK', ['url' => $article_image]);
     }
 
