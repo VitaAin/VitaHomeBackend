@@ -225,7 +225,7 @@ class ArticlesController extends Controller
 //        $file = $request->get('file');
 //        $fileUrl = $file->response->data->url;
         $fileUrl = $request->get('url');
-        $filename = array_last(str_split($fileUrl, '/'));
+        $filename = array_last(explode('/', $fileUrl));
         $filePath = storage_path('articleImages/' . Auth::id() . '/' . $filename);
         \Storage::delete($filePath);
         return $this->responseError('OK', $filePath);
