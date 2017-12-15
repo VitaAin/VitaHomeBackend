@@ -205,7 +205,7 @@ class ArticlesController extends Controller
         }
     }
 
-    public function articleImage($request)
+    public function articleImageUpload($request)
     {
         $file = $request->file('file');
         $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];

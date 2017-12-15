@@ -24,7 +24,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     // Articles
     Route::resource('articles', 'ArticlesController'); // 文章
     Route::get('hot_articles', 'ArticlesController@hotArticles'); // 热门文章
-    Route::post('article_image/upload', 'ArticlesController@articleImage'); // 上传文章图片
+    Route::post('article_image/upload', 'ArticlesController@articleImageUpload'); // 上传文章图片
     Route::get('articles/{article}/article_images', 'ArticlesController@articleImages'); // 获取文章所有附图
     // Categories
     Route::get('categories', 'CategoriesController@index'); // 分类
