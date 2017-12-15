@@ -215,7 +215,7 @@ class ArticlesController extends Controller
         }
         $filename = md5(time()) . '.' . $clientOriginalExt;
         $file->move(public_path('../storage/app/public/articleImages/' . Auth::id()), $filename);
-        $article_image = env('APP_URL') . '/storage/articleImage/' . Auth::id() . '/' . $filename;
+        $article_image = env('APP_URL') . '/storage/app/public/articleImages/' . Auth::id() . '/' . $filename;
         return $this->responseOk('OK', ['url' => $article_image]);
     }
 
