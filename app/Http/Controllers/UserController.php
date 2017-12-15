@@ -136,13 +136,18 @@ class UserController extends Controller
     public function avatarUpload(Request $request)
     {
         $file = $request->file('file');
-        $filename = md5(time()) . '.' . $file->getClientOriginalExtension();
+        $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
+        $clientOriginalExt = $file->getClientOriginalExtension();
+        if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
+            return $this->responseError('You may only upload png, jpg/jpeg or gif.');
+        }
+        $filename = md5(time()) . '.' . $clientOriginalExt;
         $file->move(public_path('image'), $filename);
         $avatar_image = env('APP_URL') . '/image/' . $filename;
         $user = Auth::user();
         $user->avatar = $avatar_image;
         $user->save();
-        return $this->responseOk('Change successfully', ['url' => $avatar_image]);
+        return $this->responseOk('Change avatar successfully', ['url' => $avatar_image]);
     }
 
     public function editUserInfo()
