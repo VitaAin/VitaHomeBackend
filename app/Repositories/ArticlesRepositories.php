@@ -39,7 +39,7 @@ class ArticlesRepository
     {
         $article = Article::where('id', $id);
         $article->increment('view_count', 1);
-        return $article->with('user', 'tags')->first();
+        return $article->with('user', 'tags', 'category')->first();
     }
 
     public function findArticleById($id)
