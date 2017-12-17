@@ -10,8 +10,8 @@ class Tag extends Model
         'name', 'articles_count'
     ];
 
-    public function articles()
-    {
-        return $this->belongsToMany(Article::class)->withTimestamps();
-    }
+//    public function articles()
+//    {
+//        return $this->belongsToMany(Article::class)->withTimestamps();
+//    }
 }
