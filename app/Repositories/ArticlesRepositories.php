@@ -121,10 +121,10 @@ class ArticlesRepository
         if (empty($images)) {
             return [];
         }
-//        foreach ($images as $image) {
+        foreach ($images as $image) {
 //            if ($image->article_id) continue;
-//            $image->article_id = $article->id;
-//        }
+            $image->article_id = $article->id;
+        }
         return collect($images)->map(function ($image) {
             $newImage = ArticleImage::create($image);
             return $newImage->id;
