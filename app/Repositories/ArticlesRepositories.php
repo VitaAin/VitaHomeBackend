@@ -121,6 +121,7 @@ class ArticlesRepository
         if (empty($images)) {
             return [];
         }
+        echo count($images);
         foreach ($images as $image) {
 //            if ($image->article_id) continue;
             echo '----------------------------';
