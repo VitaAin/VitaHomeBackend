@@ -149,7 +149,7 @@ class ArticlesController extends Controller
         $article = $this->articlesRepository->findArticleById($id);
         $article->update($data);
 
-        $addTags = $this->articlesRepository->editTags($request->get('tags')->toArray(), $id);
+        $addTags = $this->articlesRepository->editTags($request->get('tags'), $id);
         if ($addTags) {
             foreach ($addTags as $addTag) {
                 if (is_numeric($addTag)) {
