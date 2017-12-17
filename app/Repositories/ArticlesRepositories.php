@@ -116,14 +116,14 @@ class ArticlesRepository
         return Article::create($attributes);
     }
 
-    public function createImages($article, array $images)
+    public function createImages($articleId, array $images)
     {
         if (empty($images)) {
             return [];
         }
         foreach ($images as $image) {
 //            if ($image->article_id) continue;
-            $image->article_id = $article->id;
+            $image->article_id = $articleId;
         }
         return collect($images)->map(function ($image) {
             $newImage = ArticleImage::create($image);
