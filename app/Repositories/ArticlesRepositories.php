@@ -124,7 +124,7 @@ class ArticlesRepository
         foreach ($images as $image) {
 //            if ($image->article_id) continue;
             echo '----------------------------';
-            echo $image;
+            echo $image->name;
             $image->article_id = $articleId;
         }
         return collect($images)->map(function ($image) {
