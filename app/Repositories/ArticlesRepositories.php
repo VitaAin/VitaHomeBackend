@@ -123,6 +123,8 @@ class ArticlesRepository
         }
         foreach ($images as $image) {
 //            if ($image->article_id) continue;
+            echo '----------------------------';
+            echo $image;
             $image->article_id = $articleId;
         }
         return collect($images)->map(function ($image) {

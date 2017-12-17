@@ -89,7 +89,7 @@ class ArticlesController extends Controller
             'category_id' => $category
         ];
         $article = $this->articlesRepository->create($data);
-        $images = $this->articlesRepository->createImages($article->id, $request->get('images')->toArray());
+        $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
         Auth::user()->increment('articles_count');
         Auth::user()->increment('images_count', count($images));
         $article->increment('images_count', count($images));
