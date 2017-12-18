@@ -100,7 +100,8 @@ class ArticlesController extends Controller
                 Log::info('##############################');
                 Log::info('image name: ' . $image->get('name'));
             }
-            $image->article_id = $article->id;
+//            $image->article_id = $article->id;
+            $image['article_id'] = $article->id;
         }
         $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
         Auth::user()->increment('articles_count');
