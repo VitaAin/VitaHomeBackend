@@ -7,6 +7,7 @@ use App\Category;
 use App\Tag;
 use Cache;
 use App\Article;
+use Log;
 
 class ArticlesRepository
 {
@@ -122,12 +123,12 @@ class ArticlesRepository
             return [];
         }
         echo count($images);
-        foreach ($images as $image) {
-//            if ($image->article_id) continue;
-            echo '----------------------------';
-            echo $image->name;
-            $image->article_id = $articleId;
-        }
+//        foreach ($images as $image) {
+////            if ($image->article_id) continue;
+//            Log::info('----------------------------');
+//            echo $image->name;
+//            $image->article_id = $articleId;
+//        }
         return collect($images)->map(function ($image) {
             $newImage = ArticleImage::create($image);
             return $newImage->id;

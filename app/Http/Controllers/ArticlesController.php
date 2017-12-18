@@ -11,6 +11,7 @@ use App\Tag;
 use App\Category;
 use Cache;
 use Auth;
+use Log;
 
 class ArticlesController extends Controller
 {
@@ -89,11 +90,16 @@ class ArticlesController extends Controller
             'category_id' => $category
         ];
         $article = $this->articlesRepository->create($data);
-//        $images = $request->get('images');
-//        foreach ($images as $image) {
-//            echo $image->name;
-//            $image->article_id = $article->id;
-//        }
+        $images = $request->get('images');
+        foreach ($images as $image) {
+            Log::info('image: ' . $image);
+            if (empty($image)) {
+                Log::error('image is empty');
+            } else {
+                Log::info('image name: ' . $image->name);
+            }
+            $image->article_id = $article->id;
+        }
         $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
         Auth::user()->increment('articles_count');
         Auth::user()->increment('images_count', count($images));
