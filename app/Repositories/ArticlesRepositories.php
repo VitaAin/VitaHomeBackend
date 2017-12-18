@@ -130,7 +130,7 @@ class ArticlesRepository
 //            $image->article_id = $articleId;
 //        }
         return collect($images)->map(function ($image) use ($articleId) {
-            $image->article_id = $articleId;
+            $image['article_id'] = $articleId;
             $newImage = ArticleImage::create($image);
             return $newImage->id;
         })->toArray();
