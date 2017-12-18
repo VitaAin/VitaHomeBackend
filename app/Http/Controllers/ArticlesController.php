@@ -96,7 +96,9 @@ class ArticlesController extends Controller
             if (empty($image)) {
                 Log::error('image is empty');
             } else {
-                Log::info('image name: ' . $image->name);
+//                Log::info('image name: ' . $image->name);
+                Log::info('##############################');
+                Log::info('image name: ' . $image->get('name'));
             }
             $image->article_id = $article->id;
         }
