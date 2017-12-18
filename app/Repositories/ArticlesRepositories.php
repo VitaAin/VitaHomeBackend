@@ -122,13 +122,6 @@ class ArticlesRepository
         if (empty($images)) {
             return [];
         }
-        echo count($images);
-//        foreach ($images as $image) {
-////            if ($image->article_id) continue;
-//            Log::info('----------------------------');
-//            echo $image->name;
-//            $image->article_id = $articleId;
-//        }
         return collect($images)->map(function ($image) use ($articleId) {
             $image['article_id'] = $articleId;
             $newImage = ArticleImage::create($image);
