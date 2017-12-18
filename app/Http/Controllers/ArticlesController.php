@@ -95,7 +95,7 @@ class ArticlesController extends Controller
         Auth::user()->increment('images_count', count($images));
         $article->increment('images_count', count($images));
         $article->tags()->attach($tags);
-        $article->images()->attach($images);
+//        $article->images()->attach($images);
         Cache::tags('articles')->flush();
 
         return $this->responseOk('OK', $article);
