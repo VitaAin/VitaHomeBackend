@@ -92,7 +92,7 @@ class ArticlesController extends Controller
         $article = $this->articlesRepository->create($data);
         $images = $request->get('images');
         foreach ($images as $image) {
-            Log::info('image: ' . $image);
+            Log::info('image: ' . \GuzzleHttp\json_encode($image));
             if (empty($image)) {
                 Log::error('image is empty');
             } else {
