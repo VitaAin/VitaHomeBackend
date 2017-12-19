@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration
             $table->integer('articles_count')->default(0);
             $table->integer('comments_count')->default(0);
             $table->integer('likes_count')->default(0);
-            $table->integer('followers_count')->default(0)->comment('被关注人数');
-            $table->integer('followings_count')->default(0)->comment('关注他人数');
+            $table->integer('followers_count')->default(0)->comment('被关注人数');//粉丝，多少人关注了我
+            $table->integer('followings_count')->default(0)->comment('关注他人数');//我关注了多少人
             $table->enum('is_banned', [1, 0])->default(0)->index()->comment('是否禁止');
             $table->string('confirm_code', 60)->comment('激活码');
             $table->integer('is_confirmed')->default(0)->comment('是否激活了用户');
