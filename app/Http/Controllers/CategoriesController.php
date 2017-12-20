@@ -9,7 +9,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::pluck('id', 'name', 'description')
+        $categories = Category::with('id', 'name', 'description')
             ->toArray();
 //        $data = [];
 //        foreach ($categories as $key => $category) {
