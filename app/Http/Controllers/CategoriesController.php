@@ -9,13 +9,13 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::pluck('name', 'id')
+        $categories = Category::pluck('id', 'name', 'description')
             ->toArray();
-        $data = [];
-        foreach ($categories as $key => $category) {
-            $data[] = ['id' => $key, 'name' => $category];
-        }
-        return $this->responseOk('OK', $data);
+//        $data = [];
+//        foreach ($categories as $key => $category) {
+//            $data[] = ['id' => $key, 'name' => $category];
+//        }
+        return $this->responseOk('OK', $categories);
     }
 
     /**
