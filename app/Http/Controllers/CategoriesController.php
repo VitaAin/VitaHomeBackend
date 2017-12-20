@@ -14,7 +14,7 @@ class CategoriesController extends Controller
 //        $categories = Cache::get('Categories_cache');
 //        if (empty($categories)) {
             $categories = DB::table('categories')
-                ->select('id', 'name', 'description')
+//                ->select('id', 'name', 'description')
                 ->get();
 //            Cache::put('Categories_cache', $categories, 10);
 //        }

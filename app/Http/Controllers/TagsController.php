@@ -19,7 +19,7 @@ class TagsController extends Controller
 //        $tags = Cache::get('Tags_cache');
 //        if (empty($tags)) {
             $tags = DB::table('tags')
-                ->select('id', 'name', 'description')
+//                ->select('id', 'name', 'description')
                 ->get();
 //            Cache::put('Tags_cache', $tags, 10);
 //        }
