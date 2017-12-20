@@ -51,7 +51,8 @@ class TagsController extends Controller
             'name' => $request->get('name'),
             'articles_count' => 0
         ];
-        $tag=Tag::create($data);
+        $tag = Tag::create($data);
+        $tag->description = $request->get('description');
         //TODO
 //        $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
 //        Auth::user()->increment('articles_count');
@@ -60,6 +61,6 @@ class TagsController extends Controller
 //        $article->tags()->attach($tags);
 //        Cache::tags('articles')->flush();
 
-        return $this->responseOk('OK', $article);
+        return $this->responseOk('OK', $tag);
     }
 }

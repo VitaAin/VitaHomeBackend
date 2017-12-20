@@ -28,7 +28,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::post('article_image/delete', 'ArticlesController@articleImageDelete'); // 删除文章图片
     Route::get('articles/{article}/article_images', 'ArticlesController@articleImages'); // 获取文章所有附图
     // Categories
-    Route::get('categories', 'CategoriesController@index'); // 分类
+    Route::resource('categories', 'CategoriesController');  // 分类
+//    Route::get('categories', 'CategoriesController@index');
     // Tags
     Route::resource('tags', 'TagsController'); // 标签
     Route::get('hot_tags', 'TagsController@hotTags'); // 热门标签

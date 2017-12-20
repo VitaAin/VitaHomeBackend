@@ -17,4 +17,21 @@ class CategoriesController extends Controller
         }
         return $this->responseOk('OK', $data);
     }
+
+    /**
+     * action: POST, URI: /categories
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $data = [
+            'name' => $request->get('name'),
+            'articles_count' => 0
+        ];
+        $category = Category::create($data);
+        $category->description = $request->get('description');
+        return $this->responseOk('OK', $category);
+    }
 }
