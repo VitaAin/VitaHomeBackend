@@ -10,8 +10,8 @@ class Category extends Model
         "name", "articles_count"
     ];
 
-    public function articles()
-    {
-        return $this->hasMany(Article::class);
-    }
+//    public function articles()
+//    {
+//        return $this->hasMany(Article::class);
+//    }
 }
