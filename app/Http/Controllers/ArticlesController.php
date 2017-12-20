@@ -150,20 +150,22 @@ class ArticlesController extends Controller
         $article = $this->articlesRepository->findArticleById($id);
         $article->update($data);
 
-        $addTags = $this->articlesRepository->editTags($request->get('tags'), $id);
-        if ($addTags) {
-            foreach ($addTags as $addTag) {
-                if (is_numeric($addTag)) {
-                    $article->tags()->attach($addTag);
-                    Tag::where('id', $addTag)->increment('count', 1);
-                } else {
-                    $article->tags()->create([
-                        'name' => $addTag,
-                        'article_count' => 1
-                    ]);
-                }
-            }
-        }
+        /*$addTags = */
+        $this->articlesRepository->editTags($article /*$id*/, $request->get('tags'));
+        $this->articlesRepository->editImages($article, $request->get('images'));
+//        if ($addTags) {
+//            foreach ($addTags as $addTag) {
+//                if (is_numeric($addTag)) {
+//                    $article->tags()->attach($addTag);
+//                    Tag::where('id', $addTag)->increment('count', 1);
+//                } else {
+//                    $article->tags()->create([
+//                        'name' => $addTag,
+//                        'article_count' => 1
+//                    ]);
+//                }
+//            }
+//        }
         Cache::tags('articles')->flush();
         return $this->responseOk('OK', $article);
     }
@@ -216,7 +218,7 @@ class ArticlesController extends Controller
         $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
         $clientOriginalExt = $file->getClientOriginalExtension();
         if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
-            return $this->responseError('You may only upload png, jpg/jpeg or gif.');
+            return $this->responseError('You can only upload png, jpg/jpeg or gif.');
         }
         $filename = md5(time()) . '.' . $clientOriginalExt;
         $file->move(public_path('../storage/app/public/articleImages/' . Auth::id()), $filename);
@@ -232,6 +234,9 @@ class ArticlesController extends Controller
         $filePath = storage_path('articleImages/' . Auth::id() . '/' . $filename);
         Log::info('articleImageDelete filePath: ' . $filePath);
 
+        DB::table('article_image')
+            ->where('url', $fileUrl)
+            ->delete();
         //TODO delete image, code below is invalid
         $res = Storage::delete($filePath);
         if ($res) {
@@ -246,7 +251,7 @@ class ArticlesController extends Controller
         if (empty($article)) {
             return $this->responseError('Cannot find this article');
         } else {
-            $articleImages = ArticleImage::where('article_id',$id)
+            $articleImages = ArticleImage::where('article_id', $id)
                 ->orderBy('created_at')
                 ->get();
             return $this->responseOk('OK', $articleImages);

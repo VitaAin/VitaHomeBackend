@@ -7,6 +7,7 @@ use App\Category;
 use App\Tag;
 use Cache;
 use App\Article;
+use DB;
 use Log;
 
 class ArticlesRepository
@@ -79,8 +80,9 @@ class ArticlesRepository
         })->toArray();
     }
 
-    public function editTags($tags, $articleId)
+    public function editTags($article /*$articleId*/, array $tags)
     {
+        $articleId = $article->id;
         $oldTags = Article::find($articleId)
             ->tags
             ->pluck('id')
@@ -95,7 +97,7 @@ class ArticlesRepository
             $tag = Tag::where('id', $reduceTag);
             $tagCount = $tag->count();
             if ($tagCount > 1) {
-                \DB::table('article_tag')
+                DB::table('article_tag')
                     ->where('tag_id', $reduceTag)
                     ->where('article_id', $articleId)
                     ->delete();
@@ -105,10 +107,23 @@ class ArticlesRepository
             }
         }
 
-        if (is_null($addTags)) {
-            return false;
-        } else {
-            return $addTags;
+//        if (is_null($addTags)) {
+//            return false;
+//        } else {
+//            return $addTags;
+//        }
+        if (!is_null($addTags)) {
+            foreach ($addTags as $addTag) {
+                if (is_numeric($addTag)) {
+                    $article->tags()->attach($addTag);
+                    Tag::where('id', $addTag)->increment('count', 1);
+                } else {
+                    $article->tags()->create([
+                        'name' => $addTag,
+                        'article_count' => 1
+                    ]);
+                }
+            }
         }
     }
 
@@ -127,5 +142,35 @@ class ArticlesRepository
             $newImage = ArticleImage::create($image);
             return $newImage->id;
         })->toArray();
+    }
+
+    public function editImages($article, array $images)
+    {
+        $articleId = $article->id;
+        $oldImages = ArticleImage::where('article_id', $articleId)
+            ->get();
+        if (is_null($images)) {
+            $images = [];
+        }
+        $reduceImages = array_diff($oldImages, $images);
+        $addImages = array_diff($images, $oldImages);
+
+        foreach ($reduceImages as $reduceImage) {
+            $image = ArticleImage::where('id', $reduceImage);
+            if ($image) {
+                $article->decrement('images_count', 1);
+                DB::table('article_images')
+                    ->where('id', $reduceImage)
+                    ->where('article_id', $articleId)
+                    ->delete();
+            }
+        }
+
+        if (!is_null($addImages)) {
+            foreach ($addImages as $addImage) {
+                ArticleImage::create($addImage);
+                $article->increment('images_count',1);
+            }
+        }
     }
 }
