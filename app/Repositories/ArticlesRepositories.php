@@ -139,7 +139,8 @@ class ArticlesRepository
             return [];
         }
         return collect($images)->map(function ($image) use ($articleId) {
-            if (empty($image['article_id'])) {
+            Log::info('image:: ' . \GuzzleHttp\json_encode($image));
+            if (empty($image['id'])) {
                 $image['article_id'] = $articleId;
                 $newImage = ArticleImage::create($image);
                 return $newImage->id;
