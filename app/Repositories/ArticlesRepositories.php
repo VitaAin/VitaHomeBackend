@@ -102,7 +102,7 @@ class ArticlesRepository
                     ->where('tag_id', $reduceTag)
                     ->where('article_id', $articleId)
                     ->delete();
-                $tag->decrement('count', 1);
+                $tag->decrement('articles_count', 1);
             } else {
                 $tag->delete();
             }
@@ -117,7 +117,7 @@ class ArticlesRepository
             foreach ($addTags as $addTag) {
                 if (is_numeric($addTag)) {
                     $article->tags()->attach($addTag);
-                    Tag::where('id', $addTag)->increment('count', 1);
+                    Tag::where('id', $addTag)->increment('articles_count', 1);
                 } else {
                     $article->tags()->create([
                         'name' => $addTag,
