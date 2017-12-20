@@ -152,7 +152,7 @@ class ArticlesController extends Controller
 
         /*$addTags = */
         $this->articlesRepository->editTags($article /*$id*/, $request->get('tags'));
-        $this->articlesRepository->editImages($article, $request->get('images'));
+        $this->articlesRepository->createImages($article, $request->get('images'));
 //        if ($addTags) {
 //            foreach ($addTags as $addTag) {
 //                if (is_numeric($addTag)) {
@@ -256,10 +256,5 @@ class ArticlesController extends Controller
                 ->get();
             return $this->responseOk('OK', $articleImages);
         }
-//        $hotArticles = Article::where([])
-//            ->orderBy('comments_count', 'desc')
-//            ->latest('updated_at')
-//            ->take(10)
-//            ->get();
     }
 }

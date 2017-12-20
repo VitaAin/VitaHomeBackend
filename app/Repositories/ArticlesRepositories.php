@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\ArticleImage;
 use App\Category;
 use App\Tag;
+use Auth;
 use Cache;
 use App\Article;
 use DB;
@@ -29,7 +30,7 @@ class ArticlesRepository
                     function () use ($request) {
                         return Article::isPublic()->whereHas('tags',
                             function ($query) use ($request) {
-                                $query->where('name', $request->tag);
+                                $query->where('name', $request->get('tag'));
                             })->with('user', 'tags', 'category')
                             ->latest('created_at')
                             ->paginate(10);
@@ -138,39 +139,11 @@ class ArticlesRepository
             return [];
         }
         return collect($images)->map(function ($image) use ($articleId) {
-            $image['article_id'] = $articleId;
-            $newImage = ArticleImage::create($image);
+            if (empty($image['article_id'])) {
+                $image['article_id'] = $articleId;
+                $newImage = ArticleImage::create($image);
+            }
             return $newImage->id;
         })->toArray();
-    }
-
-    public function editImages($article, array $images)
-    {
-        $articleId = $article->id;
-        $oldImages = ArticleImage::where('article_id', $articleId)
-            ->get()->toArray();
-        if (is_null($images)) {
-            $images = [];
-        }
-        $reduceImages = array_diff($oldImages, $images);
-        $addImages = array_diff($images, $oldImages);
-
-        foreach ($reduceImages as $reduceImage) {
-            $image = ArticleImage::where('id', $reduceImage);
-            if ($image) {
-                $article->decrement('images_count', 1);
-                DB::table('article_images')
-                    ->where('id', $reduceImage)
-                    ->where('article_id', $articleId)
-                    ->delete();
-            }
-        }
-
-        if (!is_null($addImages)) {
-            foreach ($addImages as $addImage) {
-                ArticleImage::create($addImage);
-                $article->increment('images_count',1);
-            }
-        }
     }
 }
