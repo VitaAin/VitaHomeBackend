@@ -152,7 +152,6 @@ class ArticlesController extends Controller
 
         /*$addTags = */
         $this->articlesRepository->editTags($article /*$id*/, $request->get('tags'));
-        $this->articlesRepository->createImages($id, $request->get('images'));
 //        if ($addTags) {
 //            foreach ($addTags as $addTag) {
 //                if (is_numeric($addTag)) {
@@ -167,6 +166,9 @@ class ArticlesController extends Controller
 //            }
 //        }
         Cache::tags('articles')->flush();
+        $images=$this->articlesRepository->createImages($id, $request->get('images'));
+        Auth::user()->increment('images_count', count($images));
+        $article->increment('images_count', count($images));
         return $this->responseOk('OK', $article);
     }
 
