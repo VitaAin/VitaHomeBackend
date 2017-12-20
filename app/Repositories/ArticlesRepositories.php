@@ -148,7 +148,7 @@ class ArticlesRepository
     {
         $articleId = $article->id;
         $oldImages = ArticleImage::where('article_id', $articleId)
-            ->get();
+            ->get()->toArray();
         if (is_null($images)) {
             $images = [];
         }
