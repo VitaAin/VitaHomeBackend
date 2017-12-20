@@ -32,6 +32,7 @@ class CategoriesController extends Controller
         ];
         $category = Category::create($data);
         $category->description = $request->get('description');
+        $category->save();
         return $this->responseOk('OK', $category);
     }
 }

@@ -53,6 +53,7 @@ class TagsController extends Controller
         ];
         $tag = Tag::create($data);
         $tag->description = $request->get('description');
+        $tag->save();
         //TODO
 //        $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
 //        Auth::user()->increment('articles_count');
