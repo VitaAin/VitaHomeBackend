@@ -138,14 +138,18 @@ class ArticlesRepository
         if (empty($images)) {
             return [];
         }
-        return collect($images)->map(function ($image) use ($articleId) {
+        $newCount = 0;
+        collect($images)->map(function ($image) use ($articleId, $newCount) {
             Log::info('image:: ' . \GuzzleHttp\json_encode($image));
             if (empty($image['id'])) {
                 $image['article_id'] = $articleId;
                 $newImage = ArticleImage::create($image);
+                $newCount++;
                 return $newImage->id;
             }
             return $image->id;
         })->toArray();
+        Log::info('newCount:: ' . $newCount);
+        return $newCount;
     }
 }

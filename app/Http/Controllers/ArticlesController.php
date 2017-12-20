@@ -152,7 +152,7 @@ class ArticlesController extends Controller
 
         /*$addTags = */
         $this->articlesRepository->editTags($article /*$id*/, $request->get('tags'));
-        $this->articlesRepository->createImages($article, $request->get('images'));
+        $this->articlesRepository->createImages($id, $request->get('images'));
 //        if ($addTags) {
 //            foreach ($addTags as $addTag) {
 //                if (is_numeric($addTag)) {
