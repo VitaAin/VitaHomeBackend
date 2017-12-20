@@ -38,4 +38,28 @@ class TagsController extends Controller
         }
         return $this->responseOk('OK', $hotTags);
     }
+
+    /**
+     * action: POST, URI: /tags
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $data = [
+            'name' => $request->get('name'),
+            'articles_count' => 0
+        ];
+        $tag=Tag::create($data);
+        //TODO
+//        $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
+//        Auth::user()->increment('articles_count');
+//        Auth::user()->increment('images_count', count($images));
+//        $article->increment('images_count', count($images));
+//        $article->tags()->attach($tags);
+//        Cache::tags('articles')->flush();
+
+        return $this->responseOk('OK', $article);
+    }
 }
