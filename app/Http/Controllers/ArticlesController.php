@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\ArticleImage;
-use App\Http\Request\StoreArticleRequest;
 use App\Transformer\ArticleLikesTransformer;
+use DB;
 use Illuminate\Http\Request;
 use App\Repositories\ArticlesRepository;
 use App\Article;
 use App\Tag;
-use App\Category;
 use Cache;
 use Auth;
 use Log;
@@ -247,8 +246,15 @@ class ArticlesController extends Controller
         if (empty($article)) {
             return $this->responseError('Cannot find this article');
         } else {
-            $articleImages = ArticleImage::where('article_id', $id);
+            $articleImages = ArticleImage::where('article_id',$id)
+                ->orderBy('created_at')
+                ->get();
             return $this->responseOk('OK', $articleImages);
         }
+//        $hotArticles = Article::where([])
+//            ->orderBy('comments_count', 'desc')
+//            ->latest('updated_at')
+//            ->take(10)
+//            ->get();
     }
 }
