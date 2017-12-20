@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ArticleImage;
 use App\Http\Request\StoreArticleRequest;
 use App\Transformer\ArticleLikesTransformer;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use App\Category;
 use Cache;
 use Auth;
 use Log;
+use Illuminate\Support\Facades\Storage;
 
 class ArticlesController extends Controller
 {
@@ -229,9 +231,14 @@ class ArticlesController extends Controller
         $fileUrl = $request->get('url');
         $filename = array_last(explode('/', $fileUrl));
         $filePath = storage_path('articleImages/' . Auth::id() . '/' . $filename);
+        Log::info('articleImageDelete filePath: ' . $filePath);
+
         //TODO delete image, code below is invalid
-        \File::delete($filePath);
-        return $this->responseError('OK', $filePath);
+        $res = Storage::delete($filePath);
+        if ($res) {
+            return $this->responseOk('OK', $filePath);
+        }
+        return $this->responseError('Delete failed');
     }
 
     public function articleImages($id)
@@ -240,11 +247,8 @@ class ArticlesController extends Controller
         if (empty($article)) {
             return $this->responseError('Cannot find this article');
         } else {
-            //TODO get all images of article
-            $data = [
-//              'article_images'=>
-            ];
-            return $this->responseOk('OK', $data);
+            $articleImages = ArticleImage::where('article_id', $id);
+            return $this->responseOk('OK', $articleImages);
         }
     }
 }
