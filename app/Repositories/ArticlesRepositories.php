@@ -142,8 +142,9 @@ class ArticlesRepository
             if (empty($image['article_id'])) {
                 $image['article_id'] = $articleId;
                 $newImage = ArticleImage::create($image);
+                return $newImage->id;
             }
-            return $newImage->id;
+            return $image->id;
         })->toArray();
     }
 }
