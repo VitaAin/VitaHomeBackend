@@ -236,7 +236,7 @@ class ArticlesController extends Controller
         $filePath = storage_path('articleImages/' . Auth::id() . '/' . $filename);
         Log::info('articleImageDelete filePath: ' . $filePath);
 
-        DB::table('article_image')
+        DB::table('article_images')
             ->where('url', $fileUrl)
             ->delete();
         //TODO delete image, code below is invalid
