@@ -233,7 +233,7 @@ class ArticlesController extends Controller
     {
         $fileUrl = $request->get('url');
         $filename = array_last(explode('/', $fileUrl));
-        $filePath = storage_path('articleImages/' . Auth::id() . '/' . $filename);
+        $filePath = storage_path('/app/public/articleImages/' . Auth::id() . '/' . $filename);
         Log::info('articleImageDelete filePath: ' . $filePath);
 
         DB::table('article_images')
