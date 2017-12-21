@@ -166,7 +166,7 @@ class ArticlesController extends Controller
 //            }
 //        }
         Cache::tags('articles')->flush();
-        $images=$this->articlesRepository->createImages($id, $request->get('images'));
+        $images = $this->articlesRepository->createImages($id, $request->get('images'));
         Auth::user()->increment('images_count', count($images));
         $article->increment('images_count', count($images));
         return $this->responseOk('OK', $article);
@@ -254,7 +254,7 @@ class ArticlesController extends Controller
             return $this->responseError('Cannot find this article');
         } else {
             $articleImages = ArticleImage::where('article_id', $id)
-                ->orderBy('created_at')
+                ->orderBy('created_at', 'desc')
                 ->get();
             return $this->responseOk('OK', $articleImages);
         }
