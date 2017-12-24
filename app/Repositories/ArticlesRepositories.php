@@ -91,8 +91,12 @@ class ArticlesRepository
         if (is_null($tags)) {
             $tags = [];
         }
-        $reduceTags = array_diff($oldTags, $tags);
-        $addTags = array_diff($tags, $oldTags);
+        $tagsId = array_map(function ($value) {
+            return $value->id;
+        }, $tags);
+        Log::info(\GuzzleHttp\json_encode($tagsId));
+        $reduceTags = array_diff($oldTags, $tagsId);
+        $addTags = array_diff($tagsId, $oldTags);
 
         foreach ($reduceTags as $reduceTag) {
             $tag = Tag::where('id', $reduceTag);
@@ -103,8 +107,6 @@ class ArticlesRepository
                     ->where('article_id', $articleId)
                     ->delete();
                 $tag->decrement('articles_count', 1);
-            } else {
-                $tag->delete();
             }
         }
 
