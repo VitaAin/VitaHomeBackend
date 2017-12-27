@@ -67,6 +67,12 @@ class User extends Authenticatable implements JWTSubject
 
     }
 
+    public function images()
+    {
+        return $this->belongsToMany(Image::class, 'images')
+            ->withTimestamps();
+    }
+
     public function likeThis($article)
     {
         return $this->likes()->toggle($article);

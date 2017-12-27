@@ -50,10 +50,13 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('users/{user}/replies', 'UserController@userReplies'); // 用户的回复
     Route::get('users/{user}/like_articles', 'UserController@likeArticles'); // 用户的点赞文章
     Route::get('users/{user}/follow_users', 'UserController@followUsers'); // 用户的关注
-    Route::get('article/is_like','LikesController@isLike'); // 用户是否点赞了一个话题
-    Route::get('article/like','LikesController@likeThisArticle'); // 用户点赞一个话题
-    Route::get('user/is_follow','FollowsController@isFollow'); // 用户是否关注一个用户
-    Route::get('user/follow','FollowsController@followThisUser'); // 用户关注一个用户
+    Route::get('users/{user}/images', 'UserController@userImages'); // 用户的图片
+    Route::post('user_image/upload', 'UserController@userImageUpload'); // 上传用户图片
+    Route::post('user_image/delete', 'UserController@userImageDelete'); // 删除用户图片
+    Route::get('article/is_like', 'LikesController@isLike'); // 用户是否点赞了一个话题
+    Route::get('article/like', 'LikesController@likeThisArticle'); // 用户点赞一个话题
+    Route::get('user/is_follow', 'FollowsController@isFollow'); // 用户是否关注一个用户
+    Route::get('user/follow', 'FollowsController@followThisUser'); // 用户关注一个用户
 });
 
 

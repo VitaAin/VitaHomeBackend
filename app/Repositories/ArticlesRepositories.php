@@ -135,18 +135,18 @@ class ArticlesRepository
         return Article::create($attributes);
     }
 
-    public function createImages($articleId, array $images)
-    {
-        if (empty($images)) {
-            return [];
-        }
-        return collect($images)->map(function ($image) use ($articleId) {
-            Log::info('image:: ' . \GuzzleHttp\json_encode($image));
-            if (empty($image['id'])) {
-                $image['article_id'] = $articleId;
-                $newImage = ArticleImage::create($image);
-                return $newImage->id;
-            }
-        })->toArray();
-    }
+//    public function createImages($articleId, array $images)
+//    {
+//        if (empty($images)) {
+//            return [];
+//        }
+//        return collect($images)->map(function ($image) use ($articleId) {
+//            Log::info('image:: ' . \GuzzleHttp\json_encode($image));
+//            if (empty($image['id'])) {
+//                $image['article_id'] = $articleId;
+//                $newImage = ArticleImage::create($image);
+//                return $newImage->id;
+//            }
+//        })->toArray();
+//    }
 }

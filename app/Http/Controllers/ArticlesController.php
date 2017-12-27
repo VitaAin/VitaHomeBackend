@@ -91,10 +91,9 @@ class ArticlesController extends Controller
             'category_id' => $category
         ];
         $article = $this->articlesRepository->create($data);
-        $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
+//        $images = $this->articlesRepository->createImages($article->id, $request->get('images'));
         Auth::user()->increment('articles_count');
-        Auth::user()->increment('images_count', count($images));
-        $article->increment('images_count', count($images));
+//        Auth::user()->increment('images_count', count($images));
         $article->tags()->attach($tags);
         Cache::tags('articles')->flush();
 
@@ -166,9 +165,8 @@ class ArticlesController extends Controller
 //            }
 //        }
         Cache::tags('articles')->flush();
-        $images = $this->articlesRepository->createImages($id, $request->get('images'));
-        Auth::user()->increment('images_count', count($images));
-        $article->increment('images_count', count($images));
+//        $images = $this->articlesRepository->createImages($id, $request->get('images'));
+//        Auth::user()->increment('images_count', count($images));
         return $this->responseOk('OK', $article);
     }
 
