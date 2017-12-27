@@ -172,7 +172,7 @@ class UserController extends Controller
     public function editPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'password' => 'required|between:6,16|confirmed'
+            'password' => 'required|min:6|confirmed'
         ]);
 
         if ($validator->fails()) {
