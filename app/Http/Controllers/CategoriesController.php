@@ -13,9 +13,9 @@ class CategoriesController extends Controller
     {
 //        $categories = Cache::get('Categories_cache');
 //        if (empty($categories)) {
-            $categories = DB::table('categories')
+        $categories = DB::table('categories')
 //                ->select('id', 'name', 'description')
-                ->get();
+            ->get();
 //            Cache::put('Categories_cache', $categories, 10);
 //        }
         return $this->responseOk('OK', $categories);
@@ -34,7 +34,10 @@ class CategoriesController extends Controller
             'articles_count' => 0
         ];
         $category = Category::create($data);
-        $category->description = $request->get('description');
+        $desc = $request->get('description');
+        if (!empty($desc)) {
+            $category->description = $desc;
+        }
         $category->save();
         return $this->responseOk('OK', $category);
     }

@@ -52,7 +52,10 @@ class TagsController extends Controller
             'articles_count' => 0
         ];
         $tag = Tag::create($data);
-        $tag->description = $request->get('description');
+        $desc = $request->get('description');
+        if (!empty($desc)) {
+            $tag->description = $desc;
+        }
         $tag->save();
 
         return $this->responseOk('OK', $tag);
