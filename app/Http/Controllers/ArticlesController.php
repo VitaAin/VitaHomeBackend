@@ -238,7 +238,6 @@ class ArticlesController extends Controller
         DB::table('article_images')
             ->where('url', $fileUrl)
             ->delete();
-        //TODO delete image, code below is invalid
         $res = Storage::delete($filePath);
         if ($res) {
             return $this->responseOk('OK', $filePath);
