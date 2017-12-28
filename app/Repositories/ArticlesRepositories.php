@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\ArticleImage;
+use App\Image;
 use App\Category;
 use App\Tag;
 use Auth;
@@ -141,7 +141,7 @@ class ArticlesRepository
             Log::info('image:: ' . \GuzzleHttp\json_encode($image));
             if (empty($image['id'])) {
                 $image['user_id'] = Auth::id();
-                $newImage = ArticleImage::create($image);
+                $newImage = Image::create($image);
                 return $newImage->id;
             }
         })->toArray();

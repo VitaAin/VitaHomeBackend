@@ -45,11 +45,6 @@ class Article extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
-//    public function images()
-//    {
-//        return $this->belongsToMany(ArticleImage::class)->withTimestamps();
-//    }
-
     /**
      * 获得此文章的用户
      */
