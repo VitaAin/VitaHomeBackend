@@ -91,12 +91,9 @@ class ArticlesRepository
         if (is_null($tags)) {
             $tags = [];
         }
-        $tagsId = array_map(function ($value) {
-            return $value->id;
-        }, $tags);
-        Log::info(\GuzzleHttp\json_encode($tagsId));
-        $reduceTags = array_diff($oldTags, $tagsId);
-        $addTags = array_diff($tagsId, $oldTags);
+        Log::info(\GuzzleHttp\json_encode($tags));
+        $reduceTags = array_diff($oldTags, $tags);
+        $addTags = array_diff($tags, $oldTags);
 
         foreach ($reduceTags as $reduceTag) {
             $tag = Tag::where('id', $reduceTag);
