@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\ArticleImage;
 use App\Transformer\ArticleLikesTransformer;
 use DB;
 use Illuminate\Http\Request;
@@ -212,49 +211,54 @@ class ArticlesController extends Controller
         }
     }
 
-    public function articleImageUpload(Request $request)
+    public function search()
     {
-        $file = $request->file('file');
-        $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
-        $clientOriginalExt = $file->getClientOriginalExtension();
-        if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
-            return $this->responseError('You can only upload png, jpg/jpeg or gif.');
-        }
-        $filename = md5(time()) . '.' . $clientOriginalExt;
-        $file->move(public_path('../storage/app/public/articleImages/' . Auth::id()), $filename);
-        // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
-        $articleImage = env('APP_URL') . '/storage/articleImages/' . Auth::id() . '/' . $filename;
-        return $this->responseOk('OK', ['url' => $articleImage]);
+        $articles = Article::search(request('q'), null, true)->with('user')->paginate(30);
+        return $this->responseOk('OK', $articles);
     }
 
-    public function articleImageDelete(Request $request)
-    {
-        $fileUrl = $request->get('url');
-        $filename = array_last(explode('/', $fileUrl));
-//        $filePath = storage_path('app/public/articleImages/' . Auth::id() . '/' . $filename);
-        $filePath = '/public/articleImages/' . Auth::id() . '/' . $filename;
-        Log::info('articleImageDelete filePath: ' . $filePath);
-
-        DB::table('article_images')
-            ->where('url', $fileUrl)
-            ->delete();
-        $res = Storage::delete($filePath);
-        if ($res) {
-            return $this->responseOk('OK', $filePath);
-        }
-        return $this->responseError('Delete failed');
-    }
-
-    public function articleImages($id)
-    {
-        $article = Article::find($id);
-        if (empty($article)) {
-            return $this->responseError('Cannot find this article');
-        } else {
-            $articleImages = ArticleImage::where('article_id', $id)
-                ->orderBy('created_at', 'desc')
-                ->get();
-            return $this->responseOk('OK', $articleImages);
-        }
-    }
+//    public function articleImageUpload(Request $request)
+//    {
+//        $file = $request->file('file');
+//        $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
+//        $clientOriginalExt = $file->getClientOriginalExtension();
+//        if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
+//            return $this->responseError('You can only upload png, jpg/jpeg or gif.');
+//        }
+//        $filename = md5(time()) . '.' . $clientOriginalExt;
+//        $file->move(public_path('../storage/app/public/articleImages/' . Auth::id()), $filename);
+//        // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
+//        $articleImage = env('APP_URL') . '/storage/articleImages/' . Auth::id() . '/' . $filename;
+//        return $this->responseOk('OK', ['url' => $articleImage]);
+//    }
+//
+//    public function articleImageDelete(Request $request)
+//    {
+//        $fileUrl = $request->get('url');
+//        $filename = array_last(explode('/', $fileUrl));
+//        $filePath = '/public/articleImages/' . Auth::id() . '/' . $filename;
+//        Log::info('articleImageDelete filePath: ' . $filePath);
+//
+//        DB::table('article_images')
+//            ->where('url', $fileUrl)
+//            ->delete();
+//        $res = Storage::delete($filePath);
+//        if ($res) {
+//            return $this->responseOk('OK', $filePath);
+//        }
+//        return $this->responseError('Delete failed');
+//    }
+//
+//    public function articleImages($id)
+//    {
+//        $article = Article::find($id);
+//        if (empty($article)) {
+//            return $this->responseError('Cannot find this article');
+//        } else {
+//            $articleImages = ArticleImage::where('article_id', $id)
+//                ->orderBy('created_at', 'desc')
+//                ->get();
+//            return $this->responseOk('OK', $articleImages);
+//        }
+//    }
 }

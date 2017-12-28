@@ -136,6 +136,7 @@ class UserController extends Controller
 
     public function userImageUpload(Request $request)
     {
+
         $file = $request->file('file');
         $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
         $clientOriginalExt = $file->getClientOriginalExtension();

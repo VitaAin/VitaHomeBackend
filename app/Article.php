@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Article extends Model
 {
@@ -25,6 +26,17 @@ class Article extends Model
         'is_excellent' => 'boolean'
     ];
 
+    protected $searchable = [
+        'columns' => [
+            'articles.title' => 10,
+            'articles.body' => 5,
+        ],
+//        'joins' => [
+//            'category' => ['category.name'],
+//            'tags' => ['tags.name'],
+//        ],
+    ];
+
     /**
      * 获得此文章的标签
      */
@@ -33,10 +45,10 @@ class Article extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
-    public function images()
-    {
-        return $this->belongsToMany(ArticleImage::class)->withTimestamps();
-    }
+//    public function images()
+//    {
+//        return $this->belongsToMany(ArticleImage::class)->withTimestamps();
+//    }
 
     /**
      * 获得此文章的用户
