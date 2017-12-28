@@ -211,8 +211,10 @@ class ArticlesController extends Controller
         }
     }
 
-    public function search()
+    public function search(Request $request)
     {
+        Log::info("search content: " . request('content'));
+        Log::info("search content: " . $request->get('content'));
         $articles = Article::search(request('content'), null, true)->with('user')->paginate(30);
         return $this->responseOk('OK', $articles);
     }
