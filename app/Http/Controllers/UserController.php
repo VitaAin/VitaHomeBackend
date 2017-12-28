@@ -125,10 +125,20 @@ class UserController extends Controller
 
     public function userImages($id)
     {
-        if (empty($images = Cache::get('user_images' . $id))) {
-            $images = User::find($id)
-                ->images
-                ->toArray();
+        $images = Cache::get('user_images' . $id);
+        if (empty($images)) {
+            $images = Image::where('user_id', $id)
+                ->latest('created_at')
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'name' => $item->name,
+                        'url' => $item->url,
+                        'size' => $item->size,
+                        'created_at' => $item->created_at->toDateTimeString()
+                    ];
+                });
             Cache::put('user_images' . $id, $images, 10);
         }
         return $this->responseOk('OK', $images);
