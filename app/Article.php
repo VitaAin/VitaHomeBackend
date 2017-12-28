@@ -32,7 +32,8 @@ class Article extends Model
         'columns' => [
             'articles.title' => 10,
             'articles.body' => 5,
-        ],
+        ]
+//        ,
 //        'joins' => [
 //            'category' => ['category.name'],
 //            'tags' => ['tags.name'],
