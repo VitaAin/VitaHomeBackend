@@ -213,7 +213,7 @@ class ArticlesController extends Controller
 
     public function search()
     {
-        $articles = Article::search(request('q'), null, true)->with('user')->paginate(30);
+        $articles = Article::search(request('content'), null, true)->with('user')->paginate(30);
         return $this->responseOk('OK', $articles);
     }
 
