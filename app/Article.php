@@ -7,6 +7,8 @@ use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Article extends Model
 {
+    use SearchableTrait;
+
     /**
      * 可以被批量赋值的属性
      * @var array
