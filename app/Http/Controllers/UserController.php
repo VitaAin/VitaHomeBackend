@@ -165,6 +165,8 @@ class UserController extends Controller
             ->delete();
         $res = Storage::delete($filePath);
         if ($res) {
+            Auth::user()->decrement('images_count', 1);
+
             return $this->responseOk('OK', $filePath);
         }
         return $this->responseError('Delete failed', ['url' => $fileUrl]);
