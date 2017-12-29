@@ -20,7 +20,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('verify_email', 'AuthController@verifyToken'); // 验证注册码
     Route::post('user/login', 'AuthController@login'); // 登录
     Route::get('user/logout', 'AuthController@logout'); // 登出
-    Route::get('github','AuthController@github'); // Github账号登录
+    Route::get('github','GithubLoginController@github'); // Github账号登录
 
     // Articles
     Route::resource('articles', 'ArticlesController'); // 文章
