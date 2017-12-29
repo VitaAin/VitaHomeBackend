@@ -15,6 +15,8 @@ class ArticlesRepository
 {
     public function getArticles($page, $request)
     {
+        Log::info('page::::::: ' . $page);
+        Log::info('tag::::::: ' . $request->tag);
         if (empty($request->tag)) {
             return Cache::tags('articles')
                 ->remember('articles' . $page, $minutes = 10,
