@@ -215,7 +215,8 @@ class ArticlesController extends Controller
     {
         Log::info("search content: " . request('content'));
 //        $articles = Article::search(request('content'), null, true)->with('user')->paginate(30);
-        $articles = Article::search(request('content'), null, true)->with('user')->get();
+//        $articles = Article::search(request('content'), null, true)->with('user')->get();
+        $articles = Article::search(request('content'))->with('user')->get();
         return $this->responseOk('OK', $articles);
     }
 
