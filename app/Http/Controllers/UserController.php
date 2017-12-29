@@ -217,7 +217,10 @@ class UserController extends Controller
     {
         $data = [
             'real_name' => request('real_name'),
-            'city' => request('city')
+            'sex'=>request('sex'),
+            'qq'=>request('qq'),
+            'city' => request('city'),
+            'introduction'=>request('introduction')
         ];
         User::where('id', Auth::id())->update($data);
         return $this->responseOk('Modify user info successfully', $data);
