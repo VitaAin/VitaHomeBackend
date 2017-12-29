@@ -164,7 +164,7 @@ class ArticlesController extends Controller
 //            }
 //        }
         Cache::tags('articles')->flush();
-        $this->articlesRepository->createImages($id, $request->get('images'));
+        $this->articlesRepository->createImages($request->get('images'));
 //        Auth::user()->increment('images_count', count($images));
         return $this->responseOk('OK', $article);
     }

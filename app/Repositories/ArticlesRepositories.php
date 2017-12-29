@@ -15,8 +15,6 @@ class ArticlesRepository
 {
     public function getArticles($page, $request)
     {
-        Log::info('page::::::: ' . $page);
-        Log::info('tag::::::: ' . $request->tag);
         if (empty($request->tag)) {
             return Cache::tags('articles')
                 ->remember('articles' . $page, $minutes = 10,
@@ -134,12 +132,12 @@ class ArticlesRepository
         return Article::create($attributes);
     }
 
-    public function createImages($articleId, array $images)
+    public function createImages(array $images)
     {
         if (empty($images)) {
             return [];
         }
-        return collect($images)->map(function ($image) use ($articleId) {
+        return collect($images)->map(function ($image) {
             Log::info('image:: ' . \GuzzleHttp\json_encode($image));
             if (empty($image['id'])) {
                 $image['user_id'] = Auth::id();
