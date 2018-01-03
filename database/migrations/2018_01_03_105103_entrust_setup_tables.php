@@ -37,6 +37,7 @@ class EntrustSetupTables extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->string('uri', 50)->comment('前端路由名'); //无前端展示页面的权限如create，用request字段表示
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
