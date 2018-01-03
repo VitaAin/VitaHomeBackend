@@ -87,7 +87,7 @@ class GithubLoginController extends Controller
             ]);
             $user->github_id = $githubUser['id'];
             $user->save();
-//            $user->attachRole(3);
+            $user->attachRole(3);
         }
         $token = JWTAuth::fromUser($user);
         $user->jwt_token = [

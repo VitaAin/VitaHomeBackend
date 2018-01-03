@@ -58,7 +58,30 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('user/follow', 'FollowsController@followThisUser'); // 用户关注一个用户
 });
 
+/*
+|--------------------------------------------------------------------------
+| 后台管理的 API 接口
+|--------------------------------------------------------------------------
+*/
+Route::group([
+    'middleware' => 'cors',
+    'namespace' => 'Admin',
+    'prefix' => 'v1/admin',
+], function() {
+    Route::post('login', 'AuthController@login'); //后台登录
+});
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'middleware' => ['cors', 'jwt.auth', 'check.permission'],
+    'namespace' => 'Admin',
+    'prefix' => 'v1/admin',
+], function() {
+    Route::get('menu', 'MenusController@getSidebarTree'); //获取后台左侧菜单
+    Route::get('group_permissions', 'PermissionsController@groupPermissions'); //获取权限组
+    Route::get('button_permissions', 'PermissionsController@buttonPermissions'); //获取按钮级权限
+    Route::resource('roles', 'RolesController');
+    Route::resource('users', 'UsersController');
+    Route::resource('menus', 'MenusController');
+    Route::resource('permissions', 'PermissionsController');
+    Route::get('logout', 'LoginController@logout');
 });

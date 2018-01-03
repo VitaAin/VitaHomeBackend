@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'jwt.auth' => \App\Http\Middleware\JWTAuthenticate::class,
         'jwt.refreshtoken' => \App\Http\Middleware\JWTRefreshToken::class,
         'cors' => \Barryvdh\Cors\HandleCors::class,
+        'check.permission' => \App\Http\Middleware\CheckPermissions::class,
     ];
 }

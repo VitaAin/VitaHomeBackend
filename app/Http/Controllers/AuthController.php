@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         $user = User::create($newUser);
         $this->sendVerifyEmailTo($user);
-//        $user->attachRole(3);
+        $user->attachRole(3);
 
         return $this->responseOk('Register successfully, please go to your email to verify! ');
     }
