@@ -18,7 +18,7 @@ class RolesTableSeeder extends Seeder
                 array(
                     'id' => 1,
                     'name' => 'admin',
-                    'display_name' => 'admin',
+                    'display_name' => '阁老',
                     'description' => '阁老',
                     'created_at' => '2017-04-26 16:00:00',
                     'updated_at' => '2017-05-24 16:20:48',
@@ -27,7 +27,7 @@ class RolesTableSeeder extends Seeder
                 array(
                     'id' => 2,
                     'name' => 'VIP',
-                    'display_name' => 'VIP',
+                    'display_name' => '宗师',
                     'description' => '宗师',
                     'created_at' => '2017-04-26 16:00:00',
                     'updated_at' => '2017-05-24 16:20:48',
@@ -36,7 +36,7 @@ class RolesTableSeeder extends Seeder
                 array(
                     'id' => 3,
                     'name' => 'owner',
-                    'display_name' => 'owner',
+                    'display_name' => '侠士',
                     'description' => '侠士',
                     'created_at' => '2017-04-26 16:00:00',
                     'updated_at' => '2017-05-24 16:20:48',
