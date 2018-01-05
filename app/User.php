@@ -36,7 +36,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $casts = [
-        'is_banned' => 'boolean',
+//        'is_banned' => 'boolean',
 //        'is_confirmed' => 'boolean'
     ];
 
