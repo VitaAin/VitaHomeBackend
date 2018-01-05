@@ -84,6 +84,16 @@ class PermissionsTableSeeder extends Seeder
                     'created_at' => '2017-05-03 04:08:06',
                     'updated_at' => '2017-05-03 04:08:06',
                 ),
+            7 =>
+                array(
+                    'id' => 8,
+                    'name' => 'parent.permission',
+                    'display_name' => '权限管理',
+                    'description' => '权限管理',
+                    'uri' => '/parent/permission',
+                    'created_at' => '2017-05-03 04:08:06',
+                    'updated_at' => '2017-05-03 04:08:06',
+                ),
         ));
     }
 }
