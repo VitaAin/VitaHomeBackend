@@ -163,6 +163,16 @@ class UserController extends Controller
         return $this->responseOk('OK', ['url' => $imageUrl]);
     }
 
+    public function userImageAdd(Request $request)
+    {
+        $image = $request->get('image');
+        if (empty($image['id'])) {
+            $image['user_id'] = Auth::id();
+        }
+        $newImage = Image::create($image);
+        return $this->responseError('OK', $newImage);
+    }
+
     public function userImageDelete(Request $request)
     {
         $fileUrl = $request->get('url');
@@ -217,10 +227,10 @@ class UserController extends Controller
     {
         $data = [
             'real_name' => request('real_name'),
-            'sex'=>request('sex'),
-            'qq'=>request('qq'),
+            'sex' => request('sex'),
+            'qq' => request('qq'),
             'city' => request('city'),
-            'introduction'=>request('introduction')
+            'introduction' => request('introduction')
         ];
         User::where('id', Auth::id())->update($data);
         return $this->responseOk('Modify user info successfully', $data);

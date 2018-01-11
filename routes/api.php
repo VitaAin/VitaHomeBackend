@@ -20,7 +20,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('verify_email', 'AuthController@verifyToken'); // 验证注册码
     Route::post('user/login', 'AuthController@login'); // 登录
     Route::get('user/logout', 'AuthController@logout'); // 登出
-    Route::get('github','GithubLoginController@github'); // Github账号登录
+    Route::get('github', 'GithubLoginController@github'); // Github账号登录
 
     // Articles
     Route::resource('articles', 'ArticlesController'); // 文章
@@ -51,6 +51,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('users/{user}/follow_users', 'UserController@followUsers'); // 用户的关注
     Route::get('users/{user}/images', 'UserController@userImages'); // 用户的图片
     Route::post('user_image/upload', 'UserController@userImageUpload'); // 上传用户图片
+    Route::post('user_image/add', 'UserController@userImageAdd'); // 添加用户图片到库
     Route::post('user_image/delete', 'UserController@userImageDelete'); // 删除用户图片
     Route::get('article/is_like', 'LikesController@isLike'); // 用户是否点赞了一个话题
     Route::get('article/like', 'LikesController@likeThisArticle'); // 用户点赞一个话题
@@ -67,7 +68,7 @@ Route::group([
     'middleware' => 'cors',
     'namespace' => 'Admin',
     'prefix' => 'v1/admin',
-], function() {
+], function () {
     Route::post('login', 'AuthController@login'); //后台登录
 });
 
@@ -75,7 +76,7 @@ Route::group([
     'middleware' => ['cors', 'jwt.auth', 'check.permission'],
     'namespace' => 'Admin',
     'prefix' => 'v1/admin',
-], function() {
+], function () {
     Route::get('menu', 'MenusController@getSidebarTree'); //获取后台左侧菜单
     Route::get('group_permissions', 'PermissionsController@groupPermissions'); //获取权限组
     Route::get('button_permissions', 'PermissionsController@buttonPermissions'); //获取按钮级权限
