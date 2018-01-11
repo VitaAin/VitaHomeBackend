@@ -172,6 +172,7 @@ return [
         Naux\Mail\SendCloudServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -232,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
     ],
 

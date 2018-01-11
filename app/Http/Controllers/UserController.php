@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Comment;
-use App\Image;
 use App\Transformer\CommentsTransformer;
 use Illuminate\Http\Request;
 use App\User;
@@ -15,6 +14,7 @@ use Validator;
 use Log;
 use DB;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -127,7 +127,7 @@ class UserController extends Controller
     {
         $images = Cache::get('user_images' . $id);
         if (empty($images)) {
-            $images = Image::where('user_id', $id)
+            $images = \App\Image::where('user_id', $id)
                 ->latest('created_at')
                 ->get()
                 ->map(function ($item) {
@@ -169,7 +169,13 @@ class UserController extends Controller
         if (empty($image['id'])) {
             $image['user_id'] = Auth::id();
         }
-        $newImage = Image::create($image);
+        // TODO crop cover
+        if ($image['is_cover']) {
+//            Image::configure(array('driver' => 'imagick'));
+            Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $image['url']))
+                ->fit(300, 200)->save();
+        }
+        $newImage = \App\Image::create($image);
         return $this->responseError('OK', $newImage);
     }
 
