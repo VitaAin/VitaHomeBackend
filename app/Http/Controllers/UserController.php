@@ -234,6 +234,7 @@ class UserController extends Controller
         $data = [
             'real_name' => request('real_name'),
             'sex' => request('sex'),
+            'phone' => request('phone'),
             'qq' => request('qq'),
             'city' => request('city'),
             'introduction' => request('introduction')
