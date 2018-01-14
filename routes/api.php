@@ -57,6 +57,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('article/like', 'LikesController@likeThisArticle'); // 用户点赞一个话题
     Route::get('user/is_follow', 'FollowsController@isFollow'); // 用户是否关注一个用户
     Route::get('user/follow', 'FollowsController@followThisUser'); // 用户关注一个用户
+
+    Route::get('notifications', 'NotificationController@index'); // 获取用户的所有通知
+    Route::get('notifications/read', 'NotificationController@read'); // 通知标记为已读
 });
 
 /*
