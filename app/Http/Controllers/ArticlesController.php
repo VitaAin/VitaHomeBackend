@@ -82,7 +82,7 @@ class ArticlesController extends Controller
 
         $data = [
             'title' => $request->get('title'),
-            'article_url'=>$request->get('cover_url'),
+            'cover_url'=>$request->get('cover_url'),
             'body' => $request->get('body'),
             'user_id' => Auth::id(),
             'is_public' => $request->get('is_public'),
@@ -140,7 +140,7 @@ class ArticlesController extends Controller
     {
         $data = [
             'title' => $request->get('title'),
-            'article_url' => $request->get('cover_url'),
+            'cover_url' => $request->get('cover_url'),
             'body' => $request->get('body'),
             'is_public' => $request->get('is_public'),
             'category_id' => $request->get('category_id')
