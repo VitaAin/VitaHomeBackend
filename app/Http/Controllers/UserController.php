@@ -170,11 +170,11 @@ class UserController extends Controller
             $image['user_id'] = Auth::id();
         }
         // TODO crop cover
-        if ($image['is_cover']) {
-            Image::configure(array('driver' => 'imagick'));
-            Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $image['url']))
-                ->fit(300, 200)->save();
-        }
+//        if ($image['is_cover']) {
+//            Image::configure(array('driver' => 'imagick'));
+//            Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $image['url']))
+//                ->fit(300, 200)->save();
+//        }
         $newImage = \App\Image::create($image);
         return $this->responseError('OK', $newImage);
     }
