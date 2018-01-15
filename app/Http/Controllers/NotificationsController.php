@@ -27,10 +27,12 @@ class NotificationsController extends Controller
     public function noticeReply()
     {
         $allNotice = Auth::user()->notifications->toArray();
-        $reply = array_filter($allNotice, function ($notice) {
-            return $notice['type'] == 'App\Notifications\CommentArticleNotification';
-        });
-        return $this->responseOk('OK', array_reverse($reply));
+        $reply = array_map(function ($notice) {
+            if ($notice['type'] == 'App\Notifications\CommentArticleNotification') {
+                return $notice;
+            }
+        }, $allNotice);
+        return $this->responseOk('OK', $reply);
     }
 
     public function noticeFollow()
