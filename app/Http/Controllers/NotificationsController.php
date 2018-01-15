@@ -30,7 +30,8 @@ class NotificationsController extends Controller
         $reply = array_filter($allNotice, function ($notice) {
             return $notice['type'] == 'App\Notifications\CommentArticleNotification';
         });
-        return $this->responseOk('OK', ksort($reply));
+        ksort($reply);
+        return $this->responseOk('OK', $reply);
     }
 
     public function noticeFollow()
