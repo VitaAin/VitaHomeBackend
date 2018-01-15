@@ -23,6 +23,16 @@ class NotificationsController extends Controller
         return $this->responseOk('OK', Auth::user()->notifications);
     }
 
+    public function noticeReply()
+    {
+        $reply = Auth::user()->notifications->map(function ($notice) {
+            if (!empty($notice . data . comment)) {
+                return $notice;
+            }
+        });
+        return $this->responseOk('OK', $reply);
+    }
+
     /**
      * @return \Illuminate\Http\JsonResponse
      */

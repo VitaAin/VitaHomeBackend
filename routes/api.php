@@ -59,6 +59,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
     Route::get('user/follow', 'FollowsController@followThisUser'); // 用户关注一个用户
 
     Route::get('notifications', 'NotificationsController@index'); // 获取用户的所有通知
+    Route::get('notice_reply', 'NotificationsController@noticeReply'); // 获取回复通知
     Route::get('notifications/read', 'NotificationsController@read'); // 通知标记为已读
 });
 
