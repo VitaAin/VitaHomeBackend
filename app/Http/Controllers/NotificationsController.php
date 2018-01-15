@@ -28,8 +28,7 @@ class NotificationsController extends Controller
     {
         $allNotice = Auth::user()->notifications->toArray();
         $reply = array_filter($allNotice, function ($notice) {
-            \Log::info(\GuzzleHttp\json_encode($notice));
-            return str_contains($notice->type, 'CommentArticleNotification');
+            return $notice['type'] == 'App\Notifications\CommentArticleNotification';
         });
         return $this->responseOk('OK', $reply);
     }
