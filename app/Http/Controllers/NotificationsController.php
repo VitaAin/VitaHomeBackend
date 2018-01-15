@@ -33,6 +33,24 @@ class NotificationsController extends Controller
         return $this->responseOk('OK', $reply);
     }
 
+    public function noticeFollow()
+    {
+        $allNotice = Auth::user()->notifications->toArray();
+        $follow = array_filter($allNotice, function ($notice) {
+            return $notice['type'] == 'App\Notifications\FollowUserNotification';
+        });
+        return $this->responseOk('OK', $follow);
+    }
+
+    public function noticeLike()
+    {
+        $allNotice = Auth::user()->notifications->toArray();
+        $reply = array_filter($allNotice, function ($notice) {
+            return $notice['type'] == 'App\Notifications\LikeArticleNotification';
+        });
+        return $this->responseOk('OK', $reply);
+    }
+
     /**
      * @return \Illuminate\Http\JsonResponse
      */

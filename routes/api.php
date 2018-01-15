@@ -60,6 +60,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'v1'], function () {
 
     Route::get('notifications', 'NotificationsController@index'); // 获取用户的所有通知
     Route::get('notice_reply', 'NotificationsController@noticeReply'); // 获取回复通知
+    Route::get('notice_follow', 'NotificationsController@noticeFollow'); // 获取关注通知
+    Route::get('notice_like', 'NotificationsController@noticeLike'); // 获取点赞通知
     Route::get('notifications/read', 'NotificationsController@read'); // 通知标记为已读
 });
 
