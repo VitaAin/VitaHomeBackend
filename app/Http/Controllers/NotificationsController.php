@@ -25,10 +25,8 @@ class NotificationsController extends Controller
 
     public function noticeReply()
     {
-        $reply = Auth::user()->notifications->map(function ($notice) {
-            if (!empty($notice . data . comment)) {
-                return $notice;
-            }
+        $reply = array_filter(Auth::user()->notifications, function ($notice) {
+            return !empty($notice . data . comment);
         });
         return $this->responseOk('OK', $reply);
     }
