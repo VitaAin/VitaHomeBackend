@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -25,7 +26,9 @@ class NotificationsController extends Controller
 
     public function noticeReply()
     {
-        $reply = array_filter(Auth::user()->notifications->toArray(), function ($notice) {
+        $allNotice = Auth::user()->notifications->toArray();
+        \Log::info(\GuzzleHttp\json_encode($allNotice));
+        $reply = array_filter($allNotice, function ($notice) {
             return !empty($notice->data->comment);
         });
         return $this->responseOk('OK', $reply);
@@ -37,6 +40,6 @@ class NotificationsController extends Controller
     public function read()
     {
         Auth::user()->unreadNotifications->markAsRead();
-        return $this->responseSuccess('OK');
+        return $this->responseOk('OK');
     }
 }
