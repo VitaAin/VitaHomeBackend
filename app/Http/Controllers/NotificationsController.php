@@ -30,7 +30,7 @@ class NotificationsController extends Controller
         $reply = array_filter($allNotice, function ($notice) {
             return $notice['type'] == 'App\Notifications\CommentArticleNotification';
         });
-        return $this->responseOk('OK', $reply);
+        return $this->responseOk('OK', array_reverse(array_reverse($reply)));
     }
 
     public function noticeFollow()
@@ -39,16 +39,16 @@ class NotificationsController extends Controller
         $follow = array_filter($allNotice, function ($notice) {
             return $notice['type'] == 'App\Notifications\FollowUserNotification';
         });
-        return $this->responseOk('OK', $follow);
+        return $this->responseOk('OK', array_reverse(array_reverse($follow)));
     }
 
     public function noticeLike()
     {
         $allNotice = Auth::user()->notifications->toArray();
-        $reply = array_filter($allNotice, function ($notice) {
+        $like = array_filter($allNotice, function ($notice) {
             return $notice['type'] == 'App\Notifications\LikeArticleNotification';
         });
-        return $this->responseOk('OK', $reply);
+        return $this->responseOk('OK', array_reverse(array_reverse($like)));
     }
 
     /**
