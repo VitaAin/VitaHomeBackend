@@ -21,7 +21,13 @@ class LikesController extends Controller
     {
         $user = Auth::user();
         $liked = $user->isLikeThis($request->get('id'));
-        return $this->responseOk('OK', ['liked' => $liked]);
+        $isLike = false;
+        if ($liked == 1) {
+            $isLike = true;
+        } else {
+            $isLike = false;
+        }
+        return $this->responseOk('OK', ['liked' => $isLike]);
     }
 
     public function likeThisArticle(Request $request)
