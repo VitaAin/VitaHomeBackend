@@ -42,7 +42,7 @@ class FollowsController extends Controller
             $userToFollow->increment('followers_count');
             $userToFollow->notify(new FollowUserNotification([
                 'name' => $user->name,
-                'user_id' => $userToFollow->id
+                'user_id' => $user->id
             ]));
             return $this->responseOk('OK', ['followed' => true]);
         }
