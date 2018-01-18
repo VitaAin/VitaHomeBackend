@@ -214,10 +214,10 @@ class ArticlesController extends Controller
     public function search()
     {
         Log::info("search content: " . request('content'));
-        $articles = Article::search(request('content'), null, true)
-            ->orderBy('comments_count', 'desc')->with('user')->paginate(3); // failed
+//        $articles = Article::search(request('content'), null, true)->with('user')->paginate(20); // failed
 //        $articles = Article::search(request('content'))->with('user')->paginate(20); // failed
 //        $articles = Article::search(request('content'))->with('user')->get(); // ok
+        $articles = Article::search(request('content'), null, true)->with('user')->get(); // failed
         return $this->responseOk('OK', $articles);
     }
 
