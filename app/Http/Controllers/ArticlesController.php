@@ -222,8 +222,10 @@ class ArticlesController extends Controller
 //            ->latest('created_at')->paginate(20); // failed
 //        $articles = Article::search(request('content'), null, true)->with('user')
 //            ->orderBy('comments_count', 'desc')->paginate(20); // failed
+//        $articles = Article::search(request('content'), null, true)
+//            ->orderBy('comments_count', 'desc')->paginate(20); // failed
         $articles = Article::search(request('content'), null, true)
-            ->orderBy('comments_count', 'desc')->paginate(20); // failed
+            ->groupBy('articles.id')->paginate(20); // failed
         return $this->responseOk('OK', $articles);
     }
 
