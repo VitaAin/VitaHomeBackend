@@ -217,7 +217,9 @@ class ArticlesController extends Controller
 //        $articles = Article::search(request('content'), null, true)->with('user')->paginate(20); // failed
 //        $articles = Article::search(request('content'))->with('user')->paginate(20); // failed
 //        $articles = Article::search(request('content'))->with('user')->get(); // ok
-        $articles = Article::search(request('content'), null, true)->with('user')->get(); // failed
+//        $articles = Article::search(request('content'), null, true)->with('user')->get(); // ok
+        $articles = Article::search(request('content'), null, true)->with('user')
+            ->latest('created_at')->paginate(20); // failed
         return $this->responseOk('OK', $articles);
     }
 
