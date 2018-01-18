@@ -214,9 +214,8 @@ class ArticlesController extends Controller
     public function search()
     {
         Log::info("search content: " . request('content'));
-//        $articles = Article::search(request('content'), null, true)->with('user')->paginate(30);
-//        $articles = Article::search(request('content'), null, true)->with('user')->get();
-        $articles = Article::search(request('content', null, true))->with('user')->paginate(30)->get();
+        $articles = Article::search(request('content'), null, true)->with('user')->paginate(30);
+//        $articles = Article::search(request('content'))->with('user')->get();
         return $this->responseOk('OK', $articles);
     }
 
