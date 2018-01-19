@@ -132,7 +132,7 @@ class ArticlesRepository
         return Article::create($attributes);
     }
 
-    public function createImages(array $images)
+    public function createImages($images)
     {
         if (empty($images)) {
             return [];
