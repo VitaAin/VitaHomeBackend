@@ -31,7 +31,7 @@ class UserController extends Controller
     {
         $this->commentsTransformer = $commentsTransformer;
         $this->middleware('jwt.auth', [
-            'except' => ['show']
+            'except' => ['show', 'about']
         ]);
     }
 
@@ -241,5 +241,52 @@ class UserController extends Controller
         ];
         User::where('id', Auth::id())->update($data);
         return $this->responseOk('Modify user info successfully', $data);
+    }
+
+    public function about()
+    {
+        $data = [
+            'title' => 'Vita\'s Home',
+            'alias' => '苍澜阁',
+            'address' => 'http://www.vitain.top',
+            'github' => 'https://github.com/VitaAin/VitaHome',
+            'summary' => '苍澜阁是我的第一个微型社区，也是我的第一个完整的Web项目，它的诞生主要是因为自己想体验一把撸网站的整个流程，不精细不完美，旨在学习。由于本人一直无比热爱武侠剧，所以命名为苍澜阁。各位少侠们有任何建议，欢迎邮件我~~<br>在这里特别感谢我的两位好友：张敏童鞋和车芸艺童鞋！我之前一直都是在从事于Android开发，在Web及PHP面，我是个初学者，很感谢他们对我毫不吝惜的帮助！<br>最后，希望各位少侠使用愉快！',
+            'author' => [
+                'name' => '王婷',
+                'english_name' => 'Vita',
+                'sex' => '女',
+                'age' => '90后',
+                'email' => 'vitaain@163.com',
+                'github' => 'https://github.com/VitaAin',
+                'country' => '中国',
+                'city' => '上海',
+                'tags' => [
+                    '90后伪清新',
+                    '国产电视剧支持者',
+                    '港剧脑残铁杆粉'
+                ],
+                'hobbies' => [
+                    'Android',
+                    '摄影'
+                ],
+                'education' => [[
+                    'start' => '2012/09',
+                    'end' => '2016/07',
+                    'school' => '安徽师范大学',
+                    'subject' => '电子信息工程',
+                    'degree' => '学士'
+                ]],
+                'skills' => [
+                    'it' => [
+                        '语言: JAVA, Kotlin, C++, C, HTML, CSS, JS, PHP, VB',
+                        '平台: Android, Web',
+                        '框架：RxJava, RxAndroid, Laravel, Vue, Ionic, Angular'
+                    ],
+                    'other' => [
+                        '英语六级'
+                    ]
+                ]
+            ]];
+        return $this->responseOk('OK', $data);
     }
 }
