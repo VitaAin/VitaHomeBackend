@@ -231,7 +231,7 @@ class UserController extends Controller
         $fileName = md5(time()) . '.' . $clientOriginalExt;
         $file->move(public_path('image'), $fileName);
         Image::configure(array('driver' => 'gd'));
-        Image::make(public_path('images/' . $fileName))
+        Image::make(public_path('image/' . $fileName))
             ->fit(160, 160)->save();
         $avatar_image = env('APP_URL') . '/image/' . $fileName;
         $user = Auth::user();
