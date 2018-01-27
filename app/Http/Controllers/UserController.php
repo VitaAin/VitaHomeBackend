@@ -152,7 +152,6 @@ class UserController extends Controller
         if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
             return $this->responseError('You can only upload png, jpg/jpeg or gif.');
         }
-        $time = time();
         $fileName = md5(time()) . '.' . $clientOriginalExt;
         $fileMoved = $file->move(public_path('../storage/app/public/user_images/' . Auth::id()), $fileName);
 

@@ -11,13 +11,8 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-//        $categories = Cache::get('Categories_cache');
-//        if (empty($categories)) {
         $categories = DB::table('categories')
-//                ->select('id', 'name', 'description')
             ->get();
-//            Cache::put('Categories_cache', $categories, 10);
-//        }
         return $this->responseOk('OK', $categories);
     }
 

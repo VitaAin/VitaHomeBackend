@@ -78,7 +78,6 @@ class ArticlesController extends Controller
     public function store(Request $request)
     {
         $tags = $this->articlesRepository->createTags($request->get('tags'));
-        $category = $this->articlesRepository->createCategory($request->get('category'));
 
         $data = [
             'title' => $request->get('title'),
@@ -86,8 +85,7 @@ class ArticlesController extends Controller
             'body' => $request->get('body'),
             'user_id' => Auth::id(),
             'is_public' => $request->get('is_public'),
-//            'category_id' => $request->get('category_id')
-            'category_id' => $category
+            'category_id' => $request->get('category')
         ];
         $article = $this->articlesRepository->create($data);
         $this->articlesRepository->createImages($request->get('images'));

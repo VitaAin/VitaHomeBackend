@@ -16,13 +16,8 @@ class TagsController extends Controller
      */
     public function index()
     {
-//        $tags = Cache::get('Tags_cache');
-//        if (empty($tags)) {
-            $tags = DB::table('tags')
-//                ->select('id', 'name', 'description')
-                ->get();
-//            Cache::put('Tags_cache', $tags, 10);
-//        }
+        $tags = DB::table('tags')
+            ->get();
         return $this->responseOk('OK', $tags);
     }
 
