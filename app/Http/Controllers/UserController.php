@@ -146,7 +146,8 @@ class UserController extends Controller
 
     public function userImageUpload(Request $request)
     {
-
+        Log::info("---------------");
+        Log::info($request->get('is_cover'));
         $file = $request->file('file');
         $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
         $clientOriginalExt = $file->getClientOriginalExtension();
@@ -170,8 +171,6 @@ class UserController extends Controller
             $image['user_id'] = Auth::id();
         }
         $fileName = array_last(explode('/', $image['url']));
-        Log::info($image['url']);
-        Log::info($fileName);
         // TODO crop cover
         if ($image['is_cover']) {
             Image::configure(array('driver' => 'gd'));
@@ -179,7 +178,7 @@ class UserController extends Controller
                 ->fit(300, 200)->save();
         }
         $newImage = \App\Image::create($image);
-        return $this->responseError('OK', $newImage);
+        return $this->responseOk('OK', $newImage);
     }
 
     public function userImageDelete(Request $request)
