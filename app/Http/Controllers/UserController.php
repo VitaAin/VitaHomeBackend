@@ -152,8 +152,8 @@ class UserController extends Controller
         if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
             return $this->responseError('You can only upload png, jpg/jpeg or gif.');
         }
-        $filename = md5(time()) . '.' . $clientOriginalExt;
-        $file->move(public_path('../storage/app/public/user_images/' . Auth::id()), $filename);
+        $fileName = md5(time()) . '.' . $clientOriginalExt;
+        $file->move(public_path('../storage/app/public/user_images/' . Auth::id()), $fileName);
 
         $isCover = $request->get('is_cover');
         if ($isCover){
@@ -163,7 +163,7 @@ class UserController extends Controller
         }
 
             // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
-            $imageUrl = env('APP_URL') . '/storage/user_images/' . Auth::id() . '/' . $filename;
+            $imageUrl = env('APP_URL') . '/storage/user_images/' . Auth::id() . '/' . $fileName;
 
         Auth::user()->increment('images_count', 1);
 
