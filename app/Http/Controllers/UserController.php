@@ -171,7 +171,7 @@ class UserController extends Controller
         }
         // TODO crop cover
         if ($image['is_cover']) {
-            Image::configure(array('driver' => 'imagick'));
+            Image::configure(array('driver' => 'gd'));
             Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $image['url']))
                 ->fit(300, 200)->save();
         }
