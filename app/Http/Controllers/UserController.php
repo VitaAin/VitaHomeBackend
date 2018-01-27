@@ -155,15 +155,23 @@ class UserController extends Controller
         $fileName = md5(time()) . '.' . $clientOriginalExt;
         $file->move(public_path('../storage/app/public/user_images/' . Auth::id()), $fileName);
 
-        $isCover = $request->get('is_cover');
-        if ($isCover){
+        // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
+        $imageUrl = env('APP_URL') . '/storage/user_images/' . Auth::id() . '/' . $fileName;
+
+        // crop cover
+        if ($request->get('is_cover')) {
             Image::configure(array('driver' => 'gd'));
             Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $fileName))
                 ->fit(300, 200)->save();
+            $data = [
+                "user_id" => Auth::id(),
+                "uid" => $fileName,
+                "name" => $file->getFilename(),
+                "url" => $imageUrl,
+                "size" => $file->getSize()
+            ];
+            \App\Image::create($data);
         }
-
-            // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
-            $imageUrl = env('APP_URL') . '/storage/user_images/' . Auth::id() . '/' . $fileName;
 
         Auth::user()->increment('images_count', 1);
 
@@ -173,16 +181,9 @@ class UserController extends Controller
     public function userImageAdd(Request $request)
     {
         $image = $request->get('image');
-        if (empty($image['id'])) {
+        if (empty($image['user_id'])) {
             $image['user_id'] = Auth::id();
         }
-        $fileName = array_last(explode('/', $image['url']));
-        // TODO crop cover
-//        if ($image['is_cover']) {
-//            Image::configure(array('driver' => 'gd'));
-//            Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $fileName))
-//                ->fit(300, 200)->save();
-//        }
         $newImage = \App\Image::create($image);
         return $this->responseOk('OK', $newImage);
     }
