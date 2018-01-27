@@ -228,9 +228,12 @@ class UserController extends Controller
         if ($clientOriginalExt && !in_array($clientOriginalExt, $allowed_extensions)) {
             return $this->responseError('You may only upload png, jpg/jpeg or gif.');
         }
-        $filename = md5(time()) . '.' . $clientOriginalExt;
-        $file->move(public_path('image'), $filename);
-        $avatar_image = env('APP_URL') . '/image/' . $filename;
+        $fileName = md5(time()) . '.' . $clientOriginalExt;
+        $file->move(public_path('image'), $fileName);
+        Image::configure(array('driver' => 'gd'));
+        Image::make(public_path('images/' . $fileName))
+            ->fit(160, 160)->save();
+        $avatar_image = env('APP_URL') . '/image/' . $fileName;
         $user = Auth::user();
         $user->avatar = $avatar_image;
         $user->save();
