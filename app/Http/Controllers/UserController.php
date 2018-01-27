@@ -170,8 +170,8 @@ class UserController extends Controller
             $image['user_id'] = Auth::id();
         }
         $fileName = array_last(explode('/', $image['url']));
-        Log::info("fileUrl: " + $image['url']);
-        Log::info("fileName: " + $fileName);
+        Log::info($image['url']);
+        Log::info($fileName);
         // TODO crop cover
         if ($image['is_cover']) {
             Image::configure(array('driver' => 'gd'));
