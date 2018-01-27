@@ -77,11 +77,21 @@ class ArticlesController extends Controller
      */
     public function store(Request $request)
     {
+        if (empty($request->get('title'))) {
+            return $this->responseError('Article title cannot be empty');
+        }
+        if (empty($request->get('body'))) {
+            return $this->responseError('Article body cannot be empty');
+        }
+        if (empty($request->get('category'))) {
+            return $this->responseError('Article category cannot be empty');
+        }
+
         $tags = $this->articlesRepository->createTags($request->get('tags'));
 
         $data = [
             'title' => $request->get('title'),
-            'cover_url'=>$request->get('cover_url'),
+            'cover_url' => $request->get('cover_url'),
             'body' => $request->get('body'),
             'user_id' => Auth::id(),
             'is_public' => $request->get('is_public'),
@@ -90,7 +100,6 @@ class ArticlesController extends Controller
         $article = $this->articlesRepository->create($data);
         $this->articlesRepository->createImages($request->get('images'));
         Auth::user()->increment('articles_count');
-//        Auth::user()->increment('images_count', count($images));
         $article->tags()->attach($tags);
         Cache::tags('articles')->flush();
 
