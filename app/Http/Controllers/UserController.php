@@ -153,7 +153,7 @@ class UserController extends Controller
             return $this->responseError('You can only upload png, jpg/jpeg or gif.');
         }
         $fileName = md5(time()) . '.' . $clientOriginalExt;
-        $file->move(public_path('../storage/app/public/user_images/' . Auth::id()), $fileName);
+        $fileMoved = $file->move(public_path('../storage/app/public/user_images/' . Auth::id()), $fileName);
 
         // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
         $imageUrl = env('APP_URL') . '/storage/user_images/' . Auth::id() . '/' . $fileName;
@@ -168,7 +168,7 @@ class UserController extends Controller
                 "uid" => $fileName,
                 "name" => $file->getFilename(),
                 "url" => $imageUrl,
-                "size" => $file->getSize()
+                "size" => $fileMoved->getSize()
             ];
             \App\Image::create($data);
         }
