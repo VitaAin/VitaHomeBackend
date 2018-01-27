@@ -146,8 +146,6 @@ class UserController extends Controller
 
     public function userImageUpload(Request $request)
     {
-        Log::info("---------------");
-        Log::info($request->get('is_cover'));
         $file = $request->file('file');
         $allowed_extensions = ['png', 'jpg', 'jpeg', 'gif'];
         $clientOriginalExt = $file->getClientOriginalExtension();
@@ -156,8 +154,16 @@ class UserController extends Controller
         }
         $filename = md5(time()) . '.' . $clientOriginalExt;
         $file->move(public_path('../storage/app/public/user_images/' . Auth::id()), $filename);
-        // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
-        $imageUrl = env('APP_URL') . '/storage/user_images/' . Auth::id() . '/' . $filename;
+
+        $isCover = $request->get('is_cover');
+        if ($isCover){
+            Image::configure(array('driver' => 'gd'));
+            Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $fileName))
+                ->fit(300, 200)->save();
+        }
+
+            // 要访问下面这个url（storage中的文件资源），需要为storage目录建立软连接到public/storage，执行：php artisan storage:link
+            $imageUrl = env('APP_URL') . '/storage/user_images/' . Auth::id() . '/' . $filename;
 
         Auth::user()->increment('images_count', 1);
 
@@ -172,11 +178,11 @@ class UserController extends Controller
         }
         $fileName = array_last(explode('/', $image['url']));
         // TODO crop cover
-        if ($image['is_cover']) {
-            Image::configure(array('driver' => 'gd'));
-            Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $fileName))
-                ->fit(300, 200)->save();
-        }
+//        if ($image['is_cover']) {
+//            Image::configure(array('driver' => 'gd'));
+//            Image::make(public_path('../storage/app/public/user_images/' . Auth::id() . '/' . $fileName))
+//                ->fit(300, 200)->save();
+//        }
         $newImage = \App\Image::create($image);
         return $this->responseOk('OK', $newImage);
     }
